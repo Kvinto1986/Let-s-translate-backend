@@ -6,6 +6,7 @@ const cors = require('cors');
 
 
 const users = require('./routes/usersRoute');
+const customers = require('./routes/customersRoute');
 
 mongoose.connect(config.DB, { useNewUrlParser: true }).then(
     () => {console.log('Database is connected') },
@@ -19,6 +20,7 @@ app.use(bodyParser.json());
 app.use(cors());
 
 app.use('/api/users', users);
+app.use('/api/customers', customers);
 
 const PORT = process.env.PORT || 5000;
 

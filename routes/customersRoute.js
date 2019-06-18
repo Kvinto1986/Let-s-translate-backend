@@ -5,22 +5,22 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const passport = require('passport');
 const validateLoginInput = require('../validation/loginValidation');
-const validateUserInput = require('../validation/userValidation');
+const validateCustomerInput = require('../validation/customerValidation');
 
-const User = require('../models/UserModel');
+const Customer = require('../models/CustomerModel');
 
 router.post('/registration', function (req, res) {
 
-    const {errors, isValid} = validateUserInput(req.body);
+    const {errors, isValid} = validateCustomerInput(req.body);
 
     if (!isValid) {
         return res.status(400).json(errors);
     }
 
-    User.findOne({
+    Customer.findOne({
         email: req.body.email
-    }).then(user => {
-        if (user) {
+    }).then(customer => {
+        if (customer) {
             return res.status(400).json({
                 email: 'Email already exists'
             });
@@ -53,33 +53,32 @@ router.post('/registration', function (req, res) {
                 }
             });
 
-            const newUser = new User({
-                role: req.body.role,
+            const newCustomer = new Customer({
                 name: req.body.name,
-                phone: req.body.phone,
                 email: req.body.email,
                 password: req.body.password,
                 verify: false,
-                orders: []
+                texts: [],
+                creditCard:req.body.creditCard
             });
 
             bcrypt.genSalt(10, (err, salt) => {
                 if (err) console.error('There was an error', err);
                 else {
-                    bcrypt.hash(newUser.password, salt, (err, hash) => {
+                    bcrypt.hash(newCustomer.password, salt, (err, hash) => {
                         if (err) console.error('There was an error', err);
                         else {
-                            newUser.password = hash;
-                            newUser
+                            newCustomer.password = hash;
+                            newCustomer
                                 .save()
-                                .then(user => {
-                                    res.json(user)
+                                .then(customer => {
+                                    res.json(customer)
                                 });
                         }
                     });
                 }
             });
-            res.json(user)
+            res.json(customer)
         }
     });
 });
@@ -95,22 +94,20 @@ router.post('/login', (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
-    User.findOne({email})
-        .then(user => {
-            if (!user) {
-                errors.email = 'User not found';
+    Customer.findOne({email})
+        .then(customer => {
+            if (!customer) {
+                errors.email = 'Customer not found';
                 return res.status(404).json(errors);
             }
-            bcrypt.compare(password, user.password)
+            bcrypt.compare(password, customer.password)
                 .then(isMatch => {
                     if (isMatch) {
                         const payload = {
-                            id: user.id,
-                            name: user.name,
-                            role: user.role,
-                            orders: user.orders,
-                            phone: user.phone,
-                            email: user.email,
+                            id: customer.id,
+                            name: customer.name,
+                            texts: customer.texts,
+                            email: customer.email,
                         };
 
                         jwt.sign(payload, 'secret', {

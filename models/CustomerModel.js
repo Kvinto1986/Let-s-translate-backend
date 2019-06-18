@@ -1,21 +1,13 @@
 const mongoose = require('mongoose');
 const Schema = mongoose.Schema;
 
-const UserSchema = new Schema({
-    role: {
-        type: String,
-        required: true
-    },
+const CustomerSchema = new Schema({
     name: {
         type: String,
         required: true
     },
-    orders: {
+    texts: {
         type: Array,
-        required: true
-    },
-    phone: {
-        type: String,
         required: true
     },
     email: {
@@ -23,6 +15,10 @@ const UserSchema = new Schema({
         required: true
     },
     password: {
+        type: String,
+        required: true
+    },
+    creditCard:{
         type: String,
         required: true
     },
@@ -36,6 +32,6 @@ const UserSchema = new Schema({
     }
 });
 
-const User = mongoose.model('users', UserSchema);
+const Customer = mongoose.model('customers', CustomerSchema);
 
-module.exports = User;
+module.exports = Customer;

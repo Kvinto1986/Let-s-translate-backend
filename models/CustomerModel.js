@@ -6,6 +6,10 @@ const CustomerSchema = new Schema({
         type: String,
         required: true
     },
+    role: {
+        type: String,
+        required: true
+    },
     texts: {
         type: Array,
         required: true

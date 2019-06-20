@@ -59,7 +59,8 @@ router.post('/registration', function (req, res) {
                 password: req.body.password,
                 verify: false,
                 texts: [],
-                creditCard:req.body.creditCard
+                creditCard:req.body.creditCard,
+                role:req.body.role
             });
 
             bcrypt.genSalt(10, (err, salt) => {
@@ -108,6 +109,7 @@ router.post('/login', (req, res) => {
                             name: customer.name,
                             texts: customer.texts,
                             email: customer.email,
+                            role: customer.role
                         };
 
                         jwt.sign(payload, 'secret', {

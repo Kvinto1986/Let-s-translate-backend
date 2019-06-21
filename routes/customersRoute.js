@@ -17,9 +17,8 @@ router.post('/registration', function (req, res) {
         return res.status(400).json(errors);
     }
 
-    Customer.findOne({
-        email: req.body.email
-    }).then(customer => {
+    Customer.findOne({where: {email: req.body.email}})
+        .then(customer => {
         if (customer) {
             return res.status(400).json({
                 email: 'Email already exists'
@@ -53,14 +52,15 @@ router.post('/registration', function (req, res) {
                 }
             });
 
-            const newCustomer = new Customer({
+            const newCustomer =new Customer({
                 name: req.body.name,
                 email: req.body.email,
                 password: req.body.password,
                 verify: false,
                 texts: [],
                 creditCard:req.body.creditCard,
-                role:req.body.role
+                role:req.body.role,
+                date:Date.now()
             });
 
             bcrypt.genSalt(10, (err, salt) => {
@@ -72,13 +72,15 @@ router.post('/registration', function (req, res) {
                             newCustomer.password = hash;
                             newCustomer
                                 .save()
-                                .then(customer => {
-                                    res.json(customer)
+                                .then(user => {
+                                    res.json(user)
                                 });
                         }
                     });
                 }
             });
+
+            Customer.create(newCustomer);
             res.json(customer)
         }
     });
@@ -95,7 +97,7 @@ router.post('/login', (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
-    Customer.findOne({email})
+    Customer.findOne({where: {email: email}})
         .then(customer => {
             if (!customer) {
                 errors.email = 'Customer not found';

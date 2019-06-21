@@ -17,71 +17,73 @@ router.post('/registration', function (req, res) {
         return res.status(400).json(errors);
     }
 
-    User.findOne({
-        email: req.body.email
-    }).then(user => {
-        if (user) {
-            return res.status(400).json({
-                email: 'Email already exists'
-            });
-        } else {
+    User.findOne({where: {email: req.body.email}})
+        .then(user => {
+            if (user) {
+                return res.status(400).json({
+                    email: 'Email already exists'
+                });
+            } else {
 
-            const transporter = nodemailer.createTransport({
-                service: 'gmail',
-                auth: {
-                    user: 'managerjohnsnow@gmail.com',
-                    pass: 'John1234567890Snow'
-                }
-            });
+                const transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: 'managerjohnsnow@gmail.com',
+                        pass: 'John1234567890Snow'
+                    }
+                });
 
-            const mailOptions = {
-                from: 'managerJohnSnow@gmail.com',
-                to: req.body.email,
-                subject: 'You have successfully registered with the Let\'s translate!',
-                text: `Congratulations!
+                const mailOptions = {
+                    from: 'managerJohnSnow@gmail.com',
+                    to: req.body.email,
+                    subject: 'You have successfully registered with the Let\'s translate!',
+                    text: `Congratulations!
                  You have successfully registered in our system, success in your work!
                  Your login: ${req.body.email}, Your password: ${req.body.password}.
                  All your data can be changed in your personal profile in the web application.
                  Best regards, Healthy Street Food Incentives.`
-            };
+                };
 
-            transporter.sendMail(mailOptions, function (error, info) {
-                if (error) {
-                    console.log(error);
-                } else {
-                    console.log('Email sent: ' + info.response);
-                }
-            });
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log('Email sent: ' + info.response);
+                    }
+                });
 
-            const newUser = new User({
-                role: req.body.role,
-                name: req.body.name,
-                phone: req.body.phone,
-                email: req.body.email,
-                password: req.body.password,
-                verify: false,
-                orders: []
-            });
+                const newUser = new User({
+                    role: req.body.role,
+                    name: req.body.name,
+                    phone: req.body.phone,
+                    email: req.body.email,
+                    password: req.body.password,
+                    verify: false,
+                    orders: [],
+                    date:Date.now()
+                });
 
-            bcrypt.genSalt(10, (err, salt) => {
-                if (err) console.error('There was an error', err);
-                else {
-                    bcrypt.hash(newUser.password, salt, (err, hash) => {
-                        if (err) console.error('There was an error', err);
-                        else {
-                            newUser.password = hash;
-                            newUser
-                                .save()
-                                .then(user => {
-                                    res.json(user)
-                                });
-                        }
-                    });
-                }
-            });
-            res.json(user)
-        }
-    });
+                bcrypt.genSalt(10, (err, salt) => {
+                    if (err) console.error('There was an error', err);
+                    else {
+                        bcrypt.hash(newUser.password, salt, (err, hash) => {
+                            if (err) console.error('There was an error', err);
+                            else {
+                                newUser.password = hash;
+                                newUser
+                                    .save()
+                                    .then(user => {
+                                        res.json(user)
+                                    });
+                            }
+                        });
+                    }
+                });
+
+                User.create(newUser);
+                res.json(user)
+            }
+        });
 });
 
 router.post('/login', (req, res) => {
@@ -95,7 +97,7 @@ router.post('/login', (req, res) => {
     const email = req.body.email;
     const password = req.body.password;
 
-    User.findOne({email})
+    User.findOne({where: {email: email}})
         .then(user => {
             if (!user) {
                 errors.email = 'User not found';

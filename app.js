@@ -1,17 +1,9 @@
 const express = require('express');
-const mongoose = require('mongoose');
 const bodyParser = require('body-parser');
-const config = require('./dbConfig');
 const cors = require('cors');
-
 
 const users = require('./routes/usersRoute');
 const customers = require('./routes/customersRoute');
-
-mongoose.connect(config.DB, { useNewUrlParser: true }).then(
-    () => {console.log('Database is connected') },
-    err => { console.log('Can not connect to the database'+ err)}
-);
 
 const app = express();
 

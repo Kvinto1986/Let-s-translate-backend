@@ -1,41 +1,40 @@
-const mongoose = require('mongoose');
-const Schema = mongoose.Schema;
+const Sequelize = require('sequelize');
+const sequelize=require('../dbConfig');
 
-const UserSchema = new Schema({
+const User = sequelize.define('users', {
+
     role: {
-        type: String,
-        required: true
+        type: Sequelize.STRING,
+        allowNull: false
     },
     name: {
-        type: String,
-        required: true
+        type: Sequelize.STRING,
+        allowNull: false
     },
     orders: {
-        type: Array,
-        required: true
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        allowNull: false
     },
     phone: {
-        type: String,
-        required: true
+        type: Sequelize.STRING,
+        allowNull: false
     },
     email: {
-        type: String,
-        required: true
+        type: Sequelize.STRING,
+        allowNull: false
     },
     password: {
-        type: String,
-        required: true
+        type: Sequelize.STRING,
+        allowNull: false
     },
     verify:{
-        type: Boolean,
-        required: true
+        type: Sequelize.BOOLEAN,
+        allowNull: false
     },
     date: {
-        type: Date,
-        default: Date.now
+        type: Sequelize.DATE,
+        allowNull: false
     }
 });
-
-const User = mongoose.model('users', UserSchema);
 
 module.exports = User;

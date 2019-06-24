@@ -82,7 +82,7 @@ router.post('/registration', function (req, res) {
             });
 
             Customer.create(newCustomer);
-            res.json(customer)
+            res.json(newCustomer)
         }
     });
 });

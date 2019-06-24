@@ -60,6 +60,7 @@ router.post('/registration', function (req, res) {
                     password: req.body.password,
                     verify: false,
                     orders: [],
+                    languages:req.body.languages,
                     date:Date.now()
                 });
 
@@ -81,7 +82,7 @@ router.post('/registration', function (req, res) {
                 });
 
                 User.create(newUser);
-                res.json(user)
+                res.json(newUser)
             }
         });
 });
@@ -113,6 +114,7 @@ router.post('/login', (req, res) => {
                             orders: user.orders,
                             phone: user.phone,
                             email: user.email,
+                            languages:user.languages
                         };
 
                         jwt.sign(payload, 'secret', {

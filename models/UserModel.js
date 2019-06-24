@@ -31,6 +31,10 @@ const User = sequelize.define('users', {
         type: Sequelize.BOOLEAN,
         allowNull: false
     },
+    languages: {
+        type: Sequelize.ARRAY(Sequelize.STRING),
+        allowNull: false
+    },
     date: {
         type: Sequelize.DATE,
         allowNull: false

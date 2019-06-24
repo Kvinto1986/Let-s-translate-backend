@@ -52,7 +52,7 @@ router.post('/registration', function (req, res) {
                 }
             });
 
-            const newCustomer =new Customer({
+            const newCustomer = new Customer({
                 name: req.body.name,
                 email: req.body.email,
                 password: req.body.password,
@@ -60,7 +60,8 @@ router.post('/registration', function (req, res) {
                 texts: [],
                 creditCard:req.body.creditCard,
                 role:req.body.role,
-                date:Date.now()
+                languages: req.body.languages,
+                date: Date.now()
             });
 
             bcrypt.genSalt(10, (err, salt) => {

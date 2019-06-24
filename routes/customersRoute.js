@@ -112,7 +112,8 @@ router.post('/login', (req, res) => {
                             name: customer.name,
                             texts: customer.texts,
                             email: customer.email,
-                            role: customer.role
+                            role: customer.role,
+                            date: customer.date
                         };
 
                         jwt.sign(payload, 'secret', {

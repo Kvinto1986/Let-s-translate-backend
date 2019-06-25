@@ -2,6 +2,7 @@ const Sequelize = require('sequelize');
 const sequelize=require('../dbConfig');
 
 const Customer = sequelize.define('customers', {
+    
     name: {
         type: Sequelize.STRING,
         allowNull: false

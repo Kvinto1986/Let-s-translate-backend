@@ -19,7 +19,7 @@ const Text = sequelize.define('texts', {
     },
 
     fileUrl: {
-        type: Sequelize.STRING,
+        type: Sequelize.STRING(1000),
         allowNull: false
     },
 

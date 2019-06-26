@@ -20,7 +20,8 @@ router.post('/registration', function (req, res) {
                     text: 'Text already exists'
                 });
             } else {
-                const newText = new Text({
+
+                Text.create({
                     name: req.body.name,
                     email: req.body.email,
                     fileName: req.body.fileName,
@@ -33,8 +34,7 @@ router.post('/registration', function (req, res) {
                     date: Date.now()
                 });
 
-                Text.create(newText);
-                res.json(newText)
+                res.json(req.body)
             }
         })
 

@@ -5,6 +5,11 @@ const Text = require('../models/TextModel');
 
 const validateText = require('../validation/textValidation');
 
+const fetchTranslates = require('./logic/translates/fetchTranslates');
+const fetchTranslateByID = require('./logic/translates/fetchTranslateByID');
+const fetchCustomer = require('./logic/translates/fetchCustomer');
+const compareResponce = require('./logic/translates/compareResponce');
+
 router.post('/registration', function (req, res) {
 
     const {errors, isValid} = validateText(req.body);
@@ -37,7 +42,9 @@ router.post('/registration', function (req, res) {
                 res.json(req.body)
             }
         })
-
 });
+
+router.post('/fetchByAvailableLanguages', fetchTranslates);
+router.post('/fetchTranslateFullData', fetchTranslateByID, fetchCustomer, compareResponce);
 
 module.exports = router;

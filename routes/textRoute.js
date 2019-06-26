@@ -2,6 +2,7 @@ const express = require('express');
 const router = express.Router();
 
 const Text = require('../models/TextModel');
+const Customer =require('../models/CustomerModel')
 
 const validateText = require('../validation/textValidation');
 
@@ -39,7 +40,7 @@ router.post('/registration', function (req, res) {
                     date: Date.now()
                 });
 
-                res.json(req.body)
+                res.json(req.body);
             }
         })
 });

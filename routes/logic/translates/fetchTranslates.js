@@ -1,6 +1,6 @@
 const Text = require('../../../models/TextModel');
 const Sequelize = require('sequelize');
-const Op = Sequelize.Op
+const Op = Sequelize.Op;
 
 const fetchTranslates = (req, res, next) => {
     Text.findAll({
@@ -19,6 +19,6 @@ const fetchTranslates = (req, res, next) => {
     .catch(err => {
         res.json(err)
     })
-}
+};
 
-module.exports = fetchTranslates
+module.exports = fetchTranslates;

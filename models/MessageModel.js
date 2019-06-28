@@ -18,6 +18,16 @@ const Message = sequelize.define('messages', {
         allowNull: false
     },
 
+    senderSeen: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
+    },
+
+    recipientSeen: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false
+    },
+
     date: {
         type: Sequelize.DATE,
         allowNull: false

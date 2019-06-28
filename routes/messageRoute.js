@@ -16,6 +16,8 @@ router.post('/registration', function (req, res) {
     Message.create({
         senderEmail: req.body.senderEmail,
         recipientEmail: req.body.recipientEmail,
+        senderName: req.body.senderName,
+        recipientName: req.body.recipientName,
         messageText: req.body.messageText,
         senderSeen: true,
         recipientSeen: false,

@@ -7,7 +7,7 @@ module.exports = function validateMessage(data) {
     data.messageText = !isEmpty(data.messageText) ? data.messageText : '';
 
     if(Validator.isEmpty(data.messageText)) {
-        errors.messageText = 'Email is required';
+        errors.messageText = 'Text is required';
     }
 
     return {

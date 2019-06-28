@@ -1,3 +1,6 @@
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
+
 const express = require('express');
 const router = express.Router();
 
@@ -13,6 +16,8 @@ router.post('/registration', function (req, res) {
         return res.status(400).json(errors);
     }
 
+    console.log(req.body);
+
     Message.create({
         senderEmail: req.body.senderEmail,
         recipientEmail: req.body.recipientEmail,
@@ -25,6 +30,24 @@ router.post('/registration', function (req, res) {
     });
 
     res.json(req.body);
+
+});
+
+
+router.post('/getMessages', function (req, res) {
+
+    const userEmail = req.body.email;
+
+    Message.findAll({
+        where: {
+            senderEmail: userEmail
+
+        }
+    }).then((result) => {
+        const uniqArr=Array.from(new Set(result));
+        res.json(uniqArr);
+        console.log(uniqArr)
+    })
 
 });
 

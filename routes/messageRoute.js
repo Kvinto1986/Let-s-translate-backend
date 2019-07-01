@@ -41,23 +41,45 @@ router.post('/getMessages', function (req, res) {
         }
     }).then((result) => {
         result.reverse();
-        const uniqArr = [...new Set(result.map(s=>s.recipientEmail))]
-            .map(recipientEmail=>{
-            return{
-                recipientEmail:recipientEmail,
-                messageText:result.find(s=>s.recipientEmail===recipientEmail).messageText
-            }
-        });
-        res.json(uniqArr);
+        const uniqArr = [...new Set(result.map(s => s.recipientEmail))]
+            .map(recipientEmail => {
+                return {
+                    recipientEmail: recipientEmail,
+                    messageText: result.find(s => s.recipientEmail === recipientEmail).messageText,
+                    senderEmail: result.find(s => s.recipientEmail === recipientEmail).senderEmail,
+                    date: result.find(s => s.recipientEmail === recipientEmail).date,
+                }
+            });
+
+        for(let i=0;i<uniqArr.length;i++){
+
+            Message.findAll({
+                where: {
+                    senderEmail: uniqArr[i].recipientEmail,
+                    recipientEmail:uniqArr[i].senderEmail
+                }
+            }).then((result)=>{
+                result.reverse();
+               const lastMessage=Array.from(result)[0];
+               if(lastMessage.date>uniqArr[i].date){
+                   uniqArr[i].date=lastMessage.date;
+                   uniqArr[i].messageText=lastMessage.messageText;
+
+                       if(i===uniqArr.length-1){
+                           res.json(uniqArr);
+                       }
+               }
+            })
+        }
     })
 });
 
 router.post('/getMessageHistory', function (req, res) {
 
     Message.findOne({where: {id: req.body.messagingID}})
-    .then((messageUnit) => {
-        res.json(messageUnit);
-    })
+        .then((messageUnit) => {
+            res.json(messageUnit);
+        })
 });
 
 module.exports = router;

@@ -40,7 +40,14 @@ router.post('/getMessages', function (req, res) {
             senderEmail: userEmail
         }
     }).then((result) => {
-        const uniqArr = Array.from(new Set(result));
+        result.reverse();
+        const uniqArr = [...new Set(result.map(s=>s.recipientEmail))]
+            .map(recipientEmail=>{
+            return{
+                recipientEmail:recipientEmail,
+                messageText:result.find(s=>s.recipientEmail===recipientEmail).messageText
+            }
+        });
         res.json(uniqArr);
     })
 });

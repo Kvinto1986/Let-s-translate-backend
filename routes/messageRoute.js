@@ -51,28 +51,57 @@ router.post('/getMessages', function (req, res) {
                 }
             });
 
-        for(let i=0;i<uniqArr.length;i++){
+        for (let i = 0; i < uniqArr.length; i++) {
 
             Message.findAll({
                 where: {
                     senderEmail: uniqArr[i].recipientEmail,
-                    recipientEmail:uniqArr[i].senderEmail
+                    recipientEmail: uniqArr[i].senderEmail
                 }
-            }).then((result)=>{
+            }).then((result) => {
                 result.reverse();
-               const lastMessage=Array.from(result)[0];
-               if(lastMessage.date>uniqArr[i].date){
-                   uniqArr[i].date=lastMessage.date;
-                   uniqArr[i].messageText=lastMessage.messageText;
-
-                       if(i===uniqArr.length-1){
-                           res.json(uniqArr);
-                       }
-               }
+                const lastMessage = Array.from(result)[0];
+                if (lastMessage.date > uniqArr[i].date) {
+                    uniqArr[i].date = lastMessage.date;
+                    uniqArr[i].messageText = lastMessage.messageText;
+                }
+                if (i === uniqArr.length - 1) {
+                    res.json(uniqArr);
+                }
             })
         }
     })
 });
+
+router.post('/getDialog', function (req, res) {
+
+    const {recipientEmail, senderEmail} = req.body;
+
+    let messagesArr=[];
+
+    Message.findAll({
+        where: {
+                recipientEmail: recipientEmail,
+                senderEmail: senderEmail,
+        }
+    })
+        .then((messages) => {
+            messagesArr=messagesArr.concat(messages);
+            Message.findAll({
+                where: {
+                    recipientEmail: senderEmail,
+                    senderEmail: recipientEmail,
+                }
+            }).then((messages)=>{
+                messagesArr=messagesArr.concat(messages);
+                messagesArr.sort(function(a,b){
+                    return new Date(a.date) - new Date(b.date)
+                });
+                res.json(messagesArr);
+            })
+        })
+});
+
 
 router.post('/getMessageHistory', function (req, res) {
 

@@ -52,12 +52,32 @@ router.post('/getMessages', function (req, res) {
     })
 });
 
-router.post('/getMessageHistory', function (req, res) {
+// router.post('/getMessageHistory', function (req, res) {
 
-    Message.findOne({where: {id: req.body.messagingID}})
-    .then((messageUnit) => {
-        res.json(messageUnit);
+//     Message.findOne({where: {id: req.body.messagingID}})
+//     .then((messageUnit) => {
+//         res.json(messageUnit);
+//     })
+// });
+
+router.post('/getDialog', function (req, res) {
+    const {recipientEmail, senderEmail} = req.body
+    console.log('======================');
+    console.log(recipientEmail, senderEmail);
+    
+    Message.findAll({
+        where: {
+            [Op.and]: {
+                recipientEmail: recipientEmail,
+                recipientEmail: senderEmail,
+                senderEmail: recipientEmail,
+                senderEmail: senderEmail,
+            }
+        }
     })
-});
+    .then((messages) => {
+        res.json(messages);
+    })
+})
 
 module.exports = router;

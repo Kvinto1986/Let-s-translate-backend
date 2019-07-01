@@ -16,8 +16,6 @@ router.post('/registration', function (req, res) {
         return res.status(400).json(errors);
     }
 
-    console.log(req.body);
-
     Message.create({
         senderEmail: req.body.senderEmail,
         recipientEmail: req.body.recipientEmail,
@@ -30,7 +28,6 @@ router.post('/registration', function (req, res) {
     });
 
     res.json(req.body);
-
 });
 
 
@@ -41,14 +38,19 @@ router.post('/getMessages', function (req, res) {
     Message.findAll({
         where: {
             senderEmail: userEmail
-
         }
     }).then((result) => {
-        const uniqArr=Array.from(new Set(result));
+        const uniqArr = Array.from(new Set(result));
         res.json(uniqArr);
-        console.log(uniqArr)
     })
+});
 
+router.post('/getMessageHistory', function (req, res) {
+
+    Message.findOne({where: {id: req.body.messagingID}})
+    .then((messageUnit) => {
+        res.json(messageUnit);
+    })
 });
 
 module.exports = router;

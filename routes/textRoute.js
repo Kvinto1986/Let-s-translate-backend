@@ -37,6 +37,9 @@ router.post('/registration', function (req, res) {
                     extraReview: req.body.extraReview,
                     translationSpeed: req.body.translationSpeed,
                     tags: req.body.tags,
+                    progress:'0',
+                    collectionName:'',
+                    currentTranslator:'',
                     date: Date.now()
                 });
 

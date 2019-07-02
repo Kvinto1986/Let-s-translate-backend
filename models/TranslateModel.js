@@ -1,24 +1,24 @@
 const Sequelize = require('sequelize');
-const sequelize=require('../dbConfig');
+const sequelize = require('../dbConfig');
 
-const Text = sequelize.define('texts', {
+const Translate = sequelize.define('texts', {
 
-    name: {
+    initialTextName: {
         type: Sequelize.STRING,
         allowNull: false
     },
 
-    email: {
+    customerEmail: {
         type: Sequelize.STRING,
         allowNull: false
     },
 
-    fileName: {
+    initialfileName: {
         type: Sequelize.STRING,
         allowNull: false
     },
 
-    fileUrl: {
+    initialTextFileUrl: {
         type: Sequelize.STRING(1000),
         allowNull: false
     },
@@ -38,11 +38,6 @@ const Text = sequelize.define('texts', {
         allowNull: false
     },
 
-    translationSpeed: {
-        type: Sequelize.BOOLEAN,
-        allowNull: false
-    },
-
     tags: {
         type: Sequelize.ARRAY(Sequelize.STRING),
         allowNull: false
@@ -58,8 +53,33 @@ const Text = sequelize.define('texts', {
         allowNull: false
     },
 
-    currentTranslator: {
+    translatorName: {
         type: Sequelize.STRING,
+        allowNull: false
+    },
+
+    translatorEmail: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+
+    translatedfileName: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+
+    translatedTextFileUrl: {
+        type: Sequelize.STRING(1000),
+        allowNull: false
+    },
+
+    finalCost: {
+        type: Sequelize.NUMBER,
+        allowNull: false
+    },
+
+    isReady: {
+        type: Sequelize.BOOLEAN,
         allowNull: false
     },
 
@@ -69,4 +89,4 @@ const Text = sequelize.define('texts', {
     }
 });
 
-module.exports = Text;
+module.exports = Translate;

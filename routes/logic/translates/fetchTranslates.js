@@ -11,6 +11,7 @@ const fetchTranslates = (req, res, next) => {
             translationLanguage: {
                 [Op.in]: req.body,
             },
+            currentTranslator: ''
         }
     })
     .then(translates => {   

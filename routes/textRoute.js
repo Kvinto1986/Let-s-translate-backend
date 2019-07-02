@@ -37,6 +37,7 @@ router.post('/registration', function (req, res) {
                     extraReview: req.body.extraReview,
                     translationSpeed: req.body.translationSpeed,
                     tags: req.body.tags,
+                    currentTranslator: '',
                     date: Date.now()
                 });
 
@@ -47,5 +48,18 @@ router.post('/registration', function (req, res) {
 
 router.post('/fetchByAvailableLanguages', fetchTranslates);
 router.post('/fetchTranslateFullData', fetchTranslateByID, fetchCustomer, compareResponce);
+
+router.post('/startTranslate', function(req, res) {
+
+    Text.update(
+        {currentTranslator: req.body.translatorEmail},
+        {where: {id: req.body.translateID}}
+    )
+    .then(translate => {
+        console.log(translate);
+        // Text.findAll
+    })
+    .catch(err => console.log(err))
+})
 
 module.exports = router;

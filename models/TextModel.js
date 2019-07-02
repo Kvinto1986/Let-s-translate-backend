@@ -48,6 +48,11 @@ const Text = sequelize.define('texts', {
         allowNull: false
     },
 
+    currentTranslator: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+
     date: {
         type: Sequelize.DATE,
         allowNull: false

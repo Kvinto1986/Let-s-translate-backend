@@ -49,10 +49,22 @@ router.post('/registration', function (req, res) {
         })
 });
 
+
 router
 .post('/fetchByAvailableLanguages', fetchTranslates)
 .post('/fetchTranslateFullData', fetchTranslateByID, fetchCustomer, compareResponce)
 .post('/startTranslate', bindTranslate)
 .post('/fetchTranslatesForCurrentTranslator', fetchTranslatesForCurrentTranslator)
+
+router.post('/getTextCustomers', function (req, res) {
+
+    Text.findAll({where: {email: req.body.email}})
+        .then(result => {
+                res.json(result);
+        })
+});
+
+router.post('/fetchByAvailableLanguages', fetchTranslates);
+router.post('/fetchTranslateFullData', fetchTranslateByID, fetchCustomer, compareResponce);
 
 module.exports = router;

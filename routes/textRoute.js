@@ -2,7 +2,6 @@ const express = require('express');
 const router = express.Router();
 
 const Text = require('../models/TextModel');
-const Customer =require('../models/CustomerModel')
 
 const validateText = require('../validation/textValidation');
 
@@ -10,6 +9,8 @@ const fetchTranslates = require('./logic/translates/fetchTranslates');
 const fetchTranslateByID = require('./logic/translates/fetchTranslateByID');
 const fetchCustomer = require('./logic/translates/fetchCustomer');
 const compareResponce = require('./logic/translates/compareResponce');
+const bindTranslate = require('./logic/translates/bindTranslate')
+const fetchTranslatesForCurrentTranslator = require('./logic/translates/fetchTranslatesForCurrentTranslator')
 
 router.post('/registration', function (req, res) {
 
@@ -47,6 +48,13 @@ router.post('/registration', function (req, res) {
             }
         })
 });
+
+
+router
+.post('/fetchByAvailableLanguages', fetchTranslates)
+.post('/fetchTranslateFullData', fetchTranslateByID, fetchCustomer, compareResponce)
+.post('/startTranslate', bindTranslate)
+.post('/fetchTranslatesForCurrentTranslator', fetchTranslatesForCurrentTranslator)
 
 router.post('/getTextCustomers', function (req, res) {
 

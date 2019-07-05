@@ -8,6 +8,11 @@ const Translate = sequelize.define('texts', {
         allowNull: false
     },
 
+    customerName: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+
     customerEmail: {
         type: Sequelize.STRING,
         allowNull: false

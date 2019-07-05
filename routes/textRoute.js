@@ -13,6 +13,7 @@ const fetchCustomer = require('./logic/translates/fetchCustomer');
 const compareResponce = require('./logic/translates/compareResponce');
 const bindTranslate = require('./logic/translates/bindTranslate')
 const fetchTranslatesForCurrentTranslator = require('./logic/translates/fetchTranslatesForCurrentTranslator')
+const saveTranslateState = require('./logic/translates/saveTranslateState')
 
 router.post('/registration', function (req, res) {
 
@@ -111,11 +112,12 @@ router.post('/getTextCustomers', function (req, res) {
 });
 
 router
-    .post('/fetchByAvailableLanguages', fetchTranslates)
-    .post('/fetchTranslateFullData', fetchTranslateByID, fetchCustomer, compareResponce)
-    .post('/startTranslate', bindTranslate)
-    .post('/fetchTranslatesForCurrentTranslator', fetchTranslatesForCurrentTranslator);
-router.post('/fetchByAvailableLanguages', fetchTranslates);
-router.post('/fetchTranslateFullData', fetchTranslateByID, fetchCustomer, compareResponce);
+.post('/fetchByAvailableLanguages', fetchTranslates)
+.post('/fetchTranslateFullData', fetchTranslateByID, fetchCustomer, compareResponce)
+.post('/startTranslate', bindTranslate)
+.post('/fetchTranslatesForCurrentTranslator', fetchTranslatesForCurrentTranslator)
+.post('/fetchByAvailableLanguages', fetchTranslates)
+.post('/fetchTranslateFullData', fetchTranslateByID, fetchCustomer, compareResponce)
+.post('/saveTranslate', saveTranslateState)
 
 module.exports = router;

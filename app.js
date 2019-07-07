@@ -7,6 +7,7 @@ const customers = require('./routes/customersRoute');
 const texts = require('./routes/textRoute');
 const uploads = require('./routes/uploadRoute');
 const messages = require('./routes/messageRoute');
+const translates = require('./routes/translateRoute');
 
 const app = express();
 app.use(bodyParser.json({limit: '50mb'}));
@@ -18,6 +19,7 @@ app.use('/api/customers', customers);
 app.use('/api/texts', texts);
 app.use('/api/uploads', uploads);
 app.use('/api/messages', messages);
+app.use('/api/translates', translates)
 
 const PORT = process.env.PORT || 5000;
 

@@ -48,6 +48,12 @@ const Translate = sequelize.define('translates', {
         allowNull: true
     },
 
+    isReviewed: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
+    },
+
     tags: {
         type: Sequelize.ARRAY(Sequelize.STRING),
         allowNull: true
@@ -80,6 +86,16 @@ const Translate = sequelize.define('translates', {
 
     translatedTextFileUrl: {
         type: Sequelize.STRING(1000),
+        allowNull: true
+    },
+
+    translateTextName: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+
+    translateText: {
+        type: Sequelize.STRING(10000),
         allowNull: true
     },
 

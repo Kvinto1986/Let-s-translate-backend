@@ -4,13 +4,13 @@ const fetchUnReadyTranslates = require('./logic/translates2/fetchUnReadyTranslat
 const saveTranslateState = require('./logic/translates2/saveTranslateState')
 const finishTranslate = require('./logic/translates2/finishTranslate')
 const getCustomersTranslates = require('./logic/translates2/getTranslatesForCustomer')
-const validateTranslateSaveData = require('../validation/translates/validateTranslateSaveData')
-const validateTranslateFinalData = require('../validation/translates/validateTranslateFinalData')
+const validateTranslateSave = require('./logic/validate/validateTranslateSave')
+const validateTranslateFinal = require('./logic/validate/validateTranslateFinal')
 
 router
-    .post('/getCustomersTranslates', getCustomersTranslates)
+.post('/getCustomersTranslates', getCustomersTranslates)
 .post('/fetchUnReadyTranslates', fetchUnReadyTranslates)
-.post('/saveTranslate', saveTranslateState)
-.post('/finishTranslate', finishTranslate)
+.post('/saveTranslate', validateTranslateSave, saveTranslateState)
+.post('/finishTranslate', validateTranslateFinal, finishTranslate)
 
 module.exports = router;

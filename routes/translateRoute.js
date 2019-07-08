@@ -3,12 +3,12 @@ const router = express.Router();
 const fetchUnReadyTranslates = require('./logic/translates2/fetchUnReadyTranslates')
 const saveTranslateState = require('./logic/translates2/saveTranslateState')
 const finishTranslate = require('./logic/translates2/finishTranslate')
-const validateTranslateSaveData = require('../validation/translates/validateTranslateSaveData')
-const validateTranslateFinalData = require('../validation/translates/validateTranslateFinalData')
+const validateTranslateSave = require('./logic/validate/validateTranslateSave')
+const validateTranslateFinal = require('./logic/validate/validateTranslateFinal')
 
 router
 .post('/fetchUnReadyTranslates', fetchUnReadyTranslates)
-.post('/saveTranslate', saveTranslateState)
-.post('/finishTranslate', finishTranslate)
+.post('/saveTranslate', validateTranslateSave, saveTranslateState)
+.post('/finishTranslate', validateTranslateFinal, finishTranslate)
 
 module.exports = router;

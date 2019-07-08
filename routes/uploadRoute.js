@@ -12,6 +12,7 @@ require ('firebase/messaging');
 require ('firebase/functions');
 
 const config=require('../firebaseConfig');
+
 firebase.initializeApp(config);
 
 router.post('/uploadOriginText', (req, res) => {
@@ -26,7 +27,6 @@ router.post('/uploadOriginText', (req, res) => {
     });
 
     const upload = multer({storage}).single('file');
-
     const uniqueEmail = req.headers.email;
 
     Customer.findOne({where: {email: uniqueEmail}}).then(findSeller => {
@@ -35,8 +35,6 @@ router.post('/uploadOriginText', (req, res) => {
 
             const path = req.file.path;
             const uniqueFilename = req.headers.email + '-' + req.file.originalname;
-
-            console.log(req.file);
 
             const storageRef = firebase.storage().ref('texts/'+uniqueFilename);
             storageRef.child(path).put(req.file).then(function() {

@@ -1,96 +1,122 @@
 const Sequelize = require('sequelize');
 const sequelize = require('../dbConfig');
 
-const Translate = sequelize.define('texts', {
+const Translate = sequelize.define('translates', {
+
+    textId: {
+        type: Sequelize.INTEGER,
+        allowNull: true
+    },
 
     initialTextName: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
 
     customerName: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
 
     customerEmail: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
 
     initialfileName: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
 
     initialTextFileUrl: {
         type: Sequelize.STRING(1000),
-        allowNull: false
+        allowNull: true
     },
 
     originalLanguage: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
 
     translationLanguage: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
 
     extraReview: {
         type: Sequelize.BOOLEAN,
-        allowNull: false
+        allowNull: true
+    },
+
+    isReviewed: {
+        type: Sequelize.BOOLEAN,
+        allowNull: false,
+        defaultValue: false
     },
 
     tags: {
         type: Sequelize.ARRAY(Sequelize.STRING),
-        allowNull: false
+        allowNull: true
     },
 
     progress: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
 
     collectionName: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
 
     translatorName: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
 
     translatorEmail: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
 
     translatedfileName: {
         type: Sequelize.STRING,
-        allowNull: false
+        allowNull: true
     },
 
     translatedTextFileUrl: {
         type: Sequelize.STRING(1000),
-        allowNull: false
+        allowNull: true
+    },
+
+    translateTextName: {
+        type: Sequelize.STRING,
+        allowNull: true
+    },
+
+    translateText: {
+        type: Sequelize.STRING(10000),
+        allowNull: true
+    },
+
+    translationSpeed: {
+        type: Sequelize.STRING,
+        allowNull: true
     },
 
     finalCost: {
-        type: Sequelize.NUMBER,
-        allowNull: false
+        type: Sequelize.INTEGER,
+        allowNull: true
     },
 
     isReady: {
         type: Sequelize.BOOLEAN,
-        allowNull: false
+        allowNull: true
     },
 
     date: {
         type: Sequelize.DATE,
-        allowNull: false
+        allowNull: true
     }
 });
 

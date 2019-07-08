@@ -111,11 +111,12 @@ router.post('/getTextCustomers', function (req, res) {
 });
 
 router
-    .post('/fetchByAvailableLanguages', fetchTranslates)
-    .post('/fetchTranslateFullData', fetchTranslateByID, fetchCustomer, compareResponce)
-    .post('/startTranslate', bindTranslate)
-    .post('/fetchTranslatesForCurrentTranslator', fetchTranslatesForCurrentTranslator);
-router.post('/fetchByAvailableLanguages', fetchTranslates);
-router.post('/fetchTranslateFullData', fetchTranslateByID, fetchCustomer, compareResponce);
+.post('/fetchByAvailableLanguages', fetchTranslates)
+.post('/fetchTranslateFullData', fetchTranslateByID, fetchCustomer, compareResponce)
+.post('/startTranslate', bindTranslate)
+.post('/fetchTranslatesForCurrentTranslator', fetchTranslatesForCurrentTranslator)
+.post('/fetchByAvailableLanguages', fetchTranslates)
+.post('/fetchTranslateFullData', fetchTranslateByID, fetchCustomer, compareResponce)
+
 
 module.exports = router;

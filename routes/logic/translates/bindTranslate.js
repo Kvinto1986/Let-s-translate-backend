@@ -1,14 +1,17 @@
 const Text = require('../../../models/TextModel');
+const Translate = require('../../../models/TranslateModel');
 
 const bindTranslate = (req, res, next) => {
-    const {translatorEmail, translateID} = req.body
 
     Text.update(
-        {currentTranslator: translatorEmail},
-        {where: {id: translateID}}
+        {currentTranslator: req.body.translatorEmail},
+        {where: {id: req.body.textId}}
     )
     .then(() => {
-        res.json('Translate was binded')
+        Translate.create(req.body)
+        .then(() => {
+            res.json('Translate was binded')
+        })
     })
     .catch(err => console.log(err))
 }

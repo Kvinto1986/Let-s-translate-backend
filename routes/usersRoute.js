@@ -7,6 +7,8 @@ const passport = require('passport');
 const validateLoginInput = require('../validation/loginValidation');
 const validateUserInput = require('../validation/userValidation');
 
+const editProfileData = require('./logic/users/editProfileData')
+
 const User = require('../models/UserModel');
 
 router.post('/registration', function (req, res) {
@@ -137,6 +139,9 @@ router.post('/login', (req, res) => {
                 });
         });
 });
+
+router
+.post('/edit', editProfileData)
 
 router.get('/me', passport.authenticate('jwt', {session: false}), (req, res) => {
     return res.json({

@@ -17,7 +17,6 @@ const fetchTranslatesForReview = (req, res, next) => {
         }
     })
     .then(transalates => {
-        console.log(transalates.length)
         res.json(transalates)
     })
 }

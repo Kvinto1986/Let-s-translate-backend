@@ -7,6 +7,8 @@ const passport = require('passport');
 const validateLoginInput = require('../validation/loginValidation');
 const validateCustomerInput = require('../validation/customerValidation');
 
+const editProfileData = require('./logic/users/editProfileData')
+
 const Customer = require('../models/CustomerModel');
 
 router.post('/registration', function (req, res) {
@@ -113,6 +115,7 @@ router.post('/login', (req, res) => {
                             texts: customer.texts,
                             email: customer.email,
                             role: customer.role,
+                            creditCard: customer.creditCard,
                             date: customer.date
                         };
 
@@ -135,6 +138,9 @@ router.post('/login', (req, res) => {
                 });
         });
 });
+
+router
+.post('/edit', editProfileData)
 
 router.get('/me', passport.authenticate('jwt', {session: false}), (req, res) => {
     return res.json({

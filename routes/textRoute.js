@@ -51,6 +51,18 @@ router.post('/registration', function (req, res) {
         })
 });
 
+
+router.post('/updateText', function (req, res) {
+
+    const {errors, isValid} = validateText(req.body);
+
+    if (!isValid) {
+        return res.status(400).json(errors);
+    }
+
+    console.log(req.body)
+});
+
 router.post('/changeCollection', function (req, res) {
 
     const {errors, isValid} = validateCollection(req.body);

@@ -40,9 +40,8 @@ router.post('/getMessages', function (req, res) {
             senderEmail: userEmail
         }
     }).then((result) => {
-        
         result.reverse();
-        
+
         const uniqArr = [...new Set(result.map(s => s.recipientEmail))]
             .map(recipientEmail => {
                 return {
@@ -52,27 +51,48 @@ router.post('/getMessages', function (req, res) {
                     date: result.find(s => s.recipientEmail === recipientEmail).date,
                 }
             });
-        
 
-        for (let i = 0; i < uniqArr.length; i++) {
-
+        if (uniqArr.length === 0) {
             Message.findAll({
                 where: {
-                    senderEmail: uniqArr[i].recipientEmail,
-                    recipientEmail: uniqArr[i].senderEmail
+                    recipientEmail: userEmail
                 }
-            }).then((data) => {
-                
-                data.reverse();
-                const lastMessage = Array.from(data)[0];
-                if (lastMessage.date > uniqArr[i].date) {
-                    uniqArr[i].date = lastMessage.date;
-                    uniqArr[i].messageText = lastMessage.messageText;
-                }
-                if (i === uniqArr.length - 1) {
-                    res.json(uniqArr);
-                }
-            })
+            }).then((result) => {
+
+                const uniqArr = [...new Set(result.map(s => s.recipientEmail))]
+                    .map(recipientEmail => {
+                        return {
+                            senderEmail: recipientEmail,
+                            messageText: result.find(s => s.recipientEmail === recipientEmail).messageText,
+                            recipientEmail: result.find(s => s.recipientEmail === recipientEmail).senderEmail,
+                            date: result.find(s => s.recipientEmail === recipientEmail).date,
+                        }
+                    });
+
+                res.json(uniqArr)
+            });
+        
+        } else {
+
+            for (let i = 0; i < uniqArr.length; i++) {
+
+                Message.findAll({
+                    where: {
+                        senderEmail: uniqArr[i].recipientEmail,
+                        recipientEmail: uniqArr[i].senderEmail
+                    }
+                }).then((data) => {
+                    data.reverse();
+                    const lastMessage = Array.from(data)[0];
+                    if (lastMessage.date > uniqArr[i].date) {
+                        uniqArr[i].date = lastMessage.date;
+                        uniqArr[i].messageText = lastMessage.messageText;
+                    }
+                    if (i === uniqArr.length - 1) {
+                        res.json(uniqArr);
+                    }
+                })
+            }
         }
     })
 });
@@ -82,24 +102,24 @@ router.post('/getDialog', function (req, res) {
 
     const {recipientEmail, senderEmail} = req.body;
 
-    let messagesArr=[];
+    let messagesArr = [];
 
     Message.findAll({
         where: {
-                recipientEmail: recipientEmail,
-                senderEmail: senderEmail,
+            recipientEmail: recipientEmail,
+            senderEmail: senderEmail,
         }
     })
         .then((messages) => {
-            messagesArr=messagesArr.concat(messages);
+            messagesArr = messagesArr.concat(messages);
             Message.findAll({
                 where: {
                     recipientEmail: senderEmail,
                     senderEmail: recipientEmail,
                 }
-            }).then((messages)=>{
-                messagesArr=messagesArr.concat(messages);
-                messagesArr.sort(function(a,b){
+            }).then((messages) => {
+                messagesArr = messagesArr.concat(messages);
+                messagesArr.sort(function (a, b) {
                     return new Date(a.date) - new Date(b.date)
                 });
                 res.json(messagesArr);

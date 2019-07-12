@@ -22,10 +22,29 @@ const textCreate = (req, res, next) => {
                 progress: '0',
                 collectionName: '',
                 currentTranslator: '',
+                isReady: false,
                 date: Date.now()
-            });
-
-            res.json(req.body);
+            })
+            .then(() => {
+                Text.findOne({
+                    where: {
+                        fileUrl: req.body.fileUrl,
+                        originalLanguage: req.body.originalLanguage,
+                        translationLanguage: req.body.translationLanguage,
+                    }
+                })
+                .then(text => {
+                    const socketData = {
+                        textId: text.id,
+                        languages: [req.body.originalLanguage, req.body.translationLanguage],
+                        customerEmail: req.body.email,
+                        customerName: req.body.name,
+                        fileName: req.body.fileName
+                    }
+    
+                    res.json(socketData);
+                })
+            })
         }
     })
 }

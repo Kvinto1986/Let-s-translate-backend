@@ -32,7 +32,7 @@ router.post('/registration', function (req, res) {
 
 
 router.post('/getMessages', function (req, res) {
-    
+
     const userEmail = req.body.email;
 
     Message.findAll({
@@ -78,6 +78,7 @@ router.post('/getMessages', function (req, res) {
 });
 
 router.post('/getDialog', function (req, res) {
+
 
     const {recipientEmail, senderEmail} = req.body;
 

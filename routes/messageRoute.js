@@ -32,7 +32,7 @@ router.post('/registration', function (req, res) {
 
 
 router.post('/getMessages', function (req, res) {
-
+    
     const userEmail = req.body.email;
 
     Message.findAll({
@@ -40,7 +40,9 @@ router.post('/getMessages', function (req, res) {
             senderEmail: userEmail
         }
     }).then((result) => {
+        
         result.reverse();
+        
         const uniqArr = [...new Set(result.map(s => s.recipientEmail))]
             .map(recipientEmail => {
                 return {
@@ -50,6 +52,7 @@ router.post('/getMessages', function (req, res) {
                     date: result.find(s => s.recipientEmail === recipientEmail).date,
                 }
             });
+        
 
         for (let i = 0; i < uniqArr.length; i++) {
 
@@ -58,9 +61,10 @@ router.post('/getMessages', function (req, res) {
                     senderEmail: uniqArr[i].recipientEmail,
                     recipientEmail: uniqArr[i].senderEmail
                 }
-            }).then((result) => {
-                result.reverse();
-                const lastMessage = Array.from(result)[0];
+            }).then((data) => {
+                
+                data.reverse();
+                const lastMessage = Array.from(data)[0];
                 if (lastMessage.date > uniqArr[i].date) {
                     uniqArr[i].date = lastMessage.date;
                     uniqArr[i].messageText = lastMessage.messageText;

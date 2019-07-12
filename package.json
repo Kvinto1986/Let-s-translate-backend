@@ -17,7 +17,7 @@
     "body-parser": "^1.18.3",
     "cloudinary": "^1.14.0",
     "cors": "^2.8.5",
-    "express": "^4.16.3",
+    "express": "^4.17.1",
     "express-fileupload": "^1.1.4",
     "file-system": "^2.2.2",
     "firebase": "^6.2.3",
@@ -32,6 +32,7 @@
     "pg-hstore": "^2.3.3",
     "select": "^1.1.2",
     "sequelize": "^5.8.11",
+    "socket.io": "^2.2.0",
     "validator": "^10.4.0",
     "xmlhttprequest": "^1.8.0"
   },

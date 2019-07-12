@@ -1,6 +1,7 @@
 const express = require('express');
 const bodyParser = require('body-parser');
 const cors = require('cors');
+const http = require("http");
 
 const users = require('./routes/usersRoute');
 const customers = require('./routes/customersRoute');
@@ -22,6 +23,15 @@ app.use('/api/messages', messages);
 app.use('/api/translates', translates)
 
 const PORT = process.env.PORT || 5000;
+
+var server = app.listen(4000);
+var io = require('socket.io').listen(server);
+
+io.on("connection", socket => {
+    socket.on('povistka', message => {
+        io.sockets.emit("povistka_alert", message);
+    })
+})
 
 app.listen(PORT, () => {
     console.log(`Server is running on PORT ${PORT}`);

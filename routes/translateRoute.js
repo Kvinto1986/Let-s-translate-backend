@@ -12,7 +12,7 @@ const reviewTranslate = require('./logic/translates2/reviewTranslate')
 router
 .post('/getCustomersTranslates', getCustomersTranslates)
 .post('/fetchUnReadyTranslates', fetchUnReadyTranslates)
-.post('/saveTranslate', validateTranslateSave, saveTranslateState)
+.post('/saveTranslate',  saveTranslateState)
 .post('/finishTranslate', validateTranslateFinal, finishTranslate)
 .post('/getTranslatesForReview', fetchTranslatesForReview)
 .post('/translateReview', reviewTranslate)

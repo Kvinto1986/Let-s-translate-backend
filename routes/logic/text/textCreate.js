@@ -22,7 +22,8 @@ const textCreate = (req, res, next) => {
                 progress: '0',
                 collectionName: '',
                 currentTranslator: '',
-                date: Date.now()
+                date: Date.now(),
+                isReady:false
             });
 
             res.json(req.body);

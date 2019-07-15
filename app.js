@@ -28,14 +28,14 @@ const server = app.listen(4000);
 const io = require('socket.io').listen(server);
 
 io.on("connection", socket => {
-    socket.on('povistka', message => {
-        io.sockets.emit("povistka_alert", message);
-    })
 
     socket.on('newTextData', data => {
         io.sockets.emit("newTextAlert", data);
     })
     
+    socket.on('newTranslateStatusData', data => {
+        io.sockets.emit("newTranslateStatusAlert", data);
+    })
 })
 
 app.listen(PORT, () => {

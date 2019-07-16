@@ -36,19 +36,31 @@ router.post('/registration', function (req, res) {
                     }
                 });
 
-                const mailOptions = {
-                    from: 'managerJohnSnow@gmail.com',
-                    to: req.body.email,
-                    subject: 'You have successfully registered with the Let\'s translate!',
-                    html: `<h1>Congratulations! You have successfully registered in our system, success in your work!</h1>
-                    <a href='http://localhost:3000/confirm/${req.body.creditCard}${req.body.email}'>Follow the link to confirm profile creation.</a>`
-                };
+                let userData = req.body.creditCard + req.body.email;
 
-                transporter.sendMail(mailOptions, function (error, info) {
-                    if (error) {
-                        console.log(error);
-                    } else {
-                        console.log('Email sent: ' + info.response);
+                bcrypt.genSalt(10, (err, salt) => {
+                    if (err) console.error('There was an error', err);
+                    else {
+                        bcrypt.hash(userData, salt, (err, hash) => {
+                            if (err) console.error('There was an error', err);
+                            else {
+                                userData = hash;
+                                const mailOptions = {
+                                    from: 'managerJohnSnow@gmail.com',
+                                    to: req.body.email,
+                                    subject: 'You have successfully registered with the Let\'s translate!',
+                                    html: `<h1>Congratulations! You have successfully registered in our system, success in your work!</h1> <a href='http://localhost:3000/confirm/${userData}'>Follow the link to confirm profile creation.</a>`
+                                };
+
+                                transporter.sendMail(mailOptions, function (error, info) {
+                                    if (error) {
+                                        console.log(error);
+                                    } else {
+                                        console.log('Email sent: ' + info.response);
+                                    }
+                                });
+                            }
+                        });
                     }
                 });
 
@@ -104,6 +116,10 @@ router.post('/login', (req, res) => {
                 errors.email = 'Customer not found';
                 return res.status(404).json(errors);
             }
+            if (customer.verify === false) {
+                errors.confirmation = 'User is not confirmed, check your email';
+                return res.status(404).json(errors);
+            }
             bcrypt.compare(password, customer.password)
                 .then(isMatch => {
                     if (isMatch) {
@@ -146,6 +162,111 @@ router.get('/me', passport.authenticate('jwt', {session: false}), (req, res) => 
         name: req.user.name,
         email: req.user.email
     });
+});
+
+
+router.post('/confirmationCustomer', (req, res) => {
+
+    const isMatch = (user, data, hash) => {
+        return new Promise((resolve, reject) => {
+            bcrypt.compare(data, hash)
+                .then(isMatch => {
+                    if (isMatch) {
+                        resolve({
+                            user,
+                            isMatch: true
+                        });
+                    } else {
+                        resolve({
+                            user,
+                            isMatch: false
+                        })
+                    }
+                })
+        });
+    };
+
+    Customer.findAll({where: {verify: false}})
+        .then(customers => {
+
+            let compareArray = [];
+
+            customers.map(elem => {
+                const userData = elem.creditCard + elem.email;
+                compareArray.push(isMatch(elem, userData, req.body.hash));
+            });
+
+            Promise.all(compareArray)
+                .then(users => {
+
+                    const matchedUsers = users.filter(item => item.isMatch);
+                    console.log(matchedUsers)
+                    if (matchedUsers.length === 0) {
+                        return res.status(400).json({
+                            email: 'No'
+                        });
+                    } else {
+                        res.json(matchedUsers[0].user);
+                        Customer.findOne({where: {id: matchedUsers[0].user.id}}).then(customer => {
+                            customer.verify = true;
+                            customer.save()
+                        })
+                    }
+
+                });
+        })
+
+});
+
+
+router.post('/restorePassword', (req, res) => {
+
+    Customer.findOne({where: {email: req.body.email}})
+        .then(customer => {
+            if (!customer) {
+                return res.status(400).json({
+                    restoreCustomer: 'Customer not found'
+                });
+            } else {
+
+
+                const transporter = nodemailer.createTransport({
+                    service: 'gmail',
+                    auth: {
+                        user: 'managerjohnsnow@gmail.com',
+                        pass: 'John1234567890Snow'
+                    }
+                });
+
+                const mailOptions = {
+                    from: 'managerJohnSnow@gmail.com',
+                    to: req.body.email,
+                    subject: 'Restore password',
+                    html: `<h1>To change your password, follow the link</h1> <a href='http://localhost:3000/newPassword/${customer.password}'>Restore password.</a>`
+                };
+
+                transporter.sendMail(mailOptions, function (error, info) {
+                    if (error) {
+                        console.log(error);
+                    } else {
+                        console.log('Email sent: ' + info.response);
+                    }
+                });
+                res.json(customer);
+
+            }
+        });
+});
+
+router.post('/newPassword', (req, res) => {
+    Customer.findOne({where: {password: req.body.password}})
+        .then(customer =>{
+            if(customer){
+            res.json(customer)}
+            else res.status(400).json({
+                email: 'No'
+            });
+        })
 });
 
 module.exports = router;

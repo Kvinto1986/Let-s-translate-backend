@@ -36,6 +36,18 @@ io.on("connection", socket => {
     socket.on('newTranslateStatusData', data => {
         io.sockets.emit("newTranslateStatusAlert", data);
     })
+
+    socket.on('newUnReadMessage', data => {
+        io.sockets.emit("spawnMessage", data);
+    })
+
+    socket.on('typingEcho', data => {
+        io.sockets.emit("typing", data);
+    })
+
+    socket.on('stopTypingEcho', data => {
+        io.sockets.emit("stopTyping", data);
+    })
 })
 
 app.listen(PORT, () => {

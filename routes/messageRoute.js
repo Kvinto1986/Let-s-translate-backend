@@ -25,9 +25,8 @@ router.post('/registration', function (req, res) {
         senderSeen: true,
         recipientSeen: false,
         date: Date.now()
-    });
-
-    res.json(req.body);
+    })
+    .then(result => res.json(result))
 });
 
 
@@ -88,7 +87,7 @@ router.post('/getMessages', function (req, res) {
                         uniqArr[i].date = lastMessage.date;
                         uniqArr[i].messageText = lastMessage.messageText;
                     }
-                    if (i === uniqArr.length - 1) {
+                    if (i === uniqArr.length-1) {
                         res.json(uniqArr);
                     }
                 })
@@ -98,8 +97,6 @@ router.post('/getMessages', function (req, res) {
 });
 
 router.post('/getDialog', function (req, res) {
-
-
     const {recipientEmail, senderEmail} = req.body;
 
     let messagesArr = [];
@@ -127,13 +124,26 @@ router.post('/getDialog', function (req, res) {
         })
 });
 
+router.post('/fetchAllUnreadMessages', (req, res) => {
+    Message
+    .findAll({
+        where: {
+            recipientEmail: req.body.user.email,
+            recipientSeen: false
+        }
+    })
+    .then((message) => {
+        res.json(message)
+    })
+})
+
 
 router.post('/getMessageHistory', function (req, res) {
-
-    Message.findOne({where: {id: req.body.messagingID}})
-        .then((messageUnit) => {
-            res.json(messageUnit);
-        })
+    Message
+    .findOne({where: {id: req.body.messagingID}})
+    .then((messageUnit) => {
+        res.json(messageUnit);
+    })
 });
 
 module.exports = router;

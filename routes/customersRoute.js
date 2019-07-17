@@ -269,4 +269,41 @@ router.post('/newPassword', (req, res) => {
         })
 });
 
+router.post('/editPassword', (req, res) => {
+
+    if (req.body.password!==req.body.password_confirm) {
+        res.status(400).json({
+            password: 'Passwords do not match'
+        });
+    }
+
+    else if (req.body.password.length<6) {
+        res.status(400).json({
+            password: 'Password must have more then 6 chars'
+        });
+    }
+
+    else {
+        Customer.findOne({where: {id: req.body.id}})
+            .then(customer => {
+                bcrypt.genSalt(10, (err, salt) => {
+                    if (err) console.error('There was an error', err);
+                    else {
+                        bcrypt.hash(req.body.password, salt, (err, hash) => {
+                            if (err) console.error('There was an error', err);
+                            else {
+                                customer.password = hash;
+                                customer
+                                    .save()
+                                    .then(user => {
+                                        res.json(user)
+                                    });
+                            }
+                        });
+                    }
+                });
+            });
+    }
+});
+
 module.exports = router;

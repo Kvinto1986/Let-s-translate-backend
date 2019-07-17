@@ -1,8 +1,5 @@
 const express = require('express');
 const router = express.Router();
-const Sequelize = require('sequelize');
-const Op = Sequelize.Op;
-const Text = require('../models/TextModel');
 
 const textCreate = require('./logic/text/textCreate')
 const textUpdate = require('./logic/text/textUpdate')

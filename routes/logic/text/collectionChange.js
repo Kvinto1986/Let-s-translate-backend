@@ -1,4 +1,6 @@
 const Text = require('../../../models/TextModel');
+const Sequelize = require('sequelize');
+const Op = Sequelize.Op;
 
 const collectionChange = (req, res) => {
 

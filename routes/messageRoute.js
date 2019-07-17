@@ -25,16 +25,15 @@ router.post('/registration', function (req, res) {
         senderSeen: true,
         recipientSeen: false,
         date: Date.now()
-    });
-
-    res.json(req.body);
+    })
+    .then(result => res.json(result))
 });
 
 
 router.post('/getMessages', function (req, res) {
 
     const userEmail = req.body.email;
-
+    
     Message.findAll({
         where: {
             senderEmail: userEmail
@@ -57,7 +56,8 @@ router.post('/getMessages', function (req, res) {
                 where: {
                     recipientEmail: userEmail
                 }
-            }).then((result) => {
+            })
+            .then((result) => {
 
                 const uniqArr = [...new Set(result.map(s => s.recipientEmail))]
                     .map(recipientEmail => {
@@ -73,7 +73,6 @@ router.post('/getMessages', function (req, res) {
             });
         
         } else {
-
             for (let i = 0; i < uniqArr.length; i++) {
 
                 Message.findAll({
@@ -81,14 +80,19 @@ router.post('/getMessages', function (req, res) {
                         senderEmail: uniqArr[i].recipientEmail,
                         recipientEmail: uniqArr[i].senderEmail
                     }
-                }).then((data) => {
+                })
+                .then((data) => {
                     data.reverse();
+
+                    const recipientUnreadedMessagesCount = data.filter(message => message.recipientSeen === false).length
+
                     const lastMessage = Array.from(data)[0];
                     if (lastMessage.date > uniqArr[i].date) {
-                        uniqArr[i].date = lastMessage.date;
+                        uniqArr[i].recipientUnreadedMessagesCount = recipientUnreadedMessagesCount
                         uniqArr[i].messageText = lastMessage.messageText;
+                        uniqArr[i].date = lastMessage.date;
                     }
-                    if (i === uniqArr.length - 1) {
+                    if (i === uniqArr.length-1) {
                         res.json(uniqArr);
                     }
                 })
@@ -98,42 +102,80 @@ router.post('/getMessages', function (req, res) {
 });
 
 router.post('/getDialog', function (req, res) {
-
-
     const {recipientEmail, senderEmail} = req.body;
 
     let messagesArr = [];
 
+    // Curent user's messages 
     Message.findAll({
         where: {
             recipientEmail: recipientEmail,
             senderEmail: senderEmail,
         }
     })
-        .then((messages) => {
-            messagesArr = messagesArr.concat(messages);
-            Message.findAll({
-                where: {
-                    recipientEmail: senderEmail,
-                    senderEmail: recipientEmail,
-                }
-            }).then((messages) => {
-                messagesArr = messagesArr.concat(messages);
-                messagesArr.sort(function (a, b) {
-                    return new Date(a.date) - new Date(b.date)
-                });
-                res.json(messagesArr);
-            })
+    .then((messages) => {
+        messagesArr = messagesArr.concat(messages);
+        
+        // Recipient's messages
+        Message.findAll({
+            where: {
+                recipientEmail: senderEmail,
+                senderEmail: recipientEmail,
+            }
         })
+        .then((messages) => {
+
+            messages.forEach(element => {
+                Message.findOne({
+                    where: {
+                        id: element.id
+                    }
+                })
+                .then(msg => {
+                    msg.update({recipientSeen: true})
+                    .then(() => {
+                        // Recipient's messages
+                        Message.findAll({
+                            where: {
+                                recipientEmail: senderEmail,
+                                senderEmail: recipientEmail,
+                            }
+                        })
+                        .then(recMessages => {
+                            recMessages.forEach(e => console.log(e.recipientSeen))
+    
+                            messagesArr = messagesArr.concat(recMessages);
+                            messagesArr.sort((a, b) => new Date(a.date) - new Date(b.date));
+    
+                            res.json(messagesArr);
+                        })
+                    })
+                })
+            });
+        })
+    })
 });
+
+router.post('/fetchAllUnreadMessages', (req, res) => {
+    Message
+    .findAll({
+        where: {
+            recipientEmail: req.body.user.email,
+            recipientSeen: false
+        }
+    })
+    .then((message) => {
+        res.json(message)
+    })
+})
 
 
 router.post('/getMessageHistory', function (req, res) {
-
-    Message.findOne({where: {id: req.body.messagingID}})
-        .then((messageUnit) => {
-            res.json(messageUnit);
-        })
+    Message
+    .findOne({where: {id: req.body.messagingID}})
+    .then((messageUnit) => {
+        res.json(messageUnit);
+    })
 });
 
 module.exports = router;

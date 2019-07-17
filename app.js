@@ -24,12 +24,33 @@ app.use('/api/translates', translates)
 
 const PORT = process.env.PORT || 5000;
 
-var server = app.listen(4000);
-var io = require('socket.io').listen(server);
+const server = app.listen(4000);
+const io = require('socket.io').listen(server);
 
 io.on("connection", socket => {
-    socket.on('povistka', message => {
-        io.sockets.emit("povistka_alert", message);
+
+    socket.on('newTextData', data => {
+        io.sockets.emit("newTextAlert", data);
+    })
+    
+    socket.on('newTranslateStatusData', data => {
+        io.sockets.emit("newTranslateStatusAlert", data);
+    })
+
+    socket.on('newUnReadMessage', data => {
+        io.sockets.emit("spawnMessage", data);
+    })
+
+    socket.on('typingEcho', data => {
+        io.sockets.emit("typing", data);
+    })
+
+    socket.on('stopTypingEcho', data => {
+        io.sockets.emit("stopTyping", data);
+    })
+
+    socket.on('didMountUnreadMessageCountDiscard', data => {
+        io.sockets.emit("unreadMessageCountDiscard", data);
     })
 })
 

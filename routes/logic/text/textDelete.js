@@ -1,6 +1,6 @@
 const Text = require('../../../models/TextModel');
 const Sequelize = require('sequelize');
-const Op = Sequelize.Op
+const Op = Sequelize.Op;
 const textDelete =(req, res) => {
 
     Text.findAll({

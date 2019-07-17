@@ -8,12 +8,10 @@ require ('firebase/storage');
 require ('firebase/messaging');
 require ('firebase/functions');
 const config = require('../firebaseConfig');
-
 const uploadText = require('./logic/text/uploadText')
 
 firebase.initializeApp(config);
 
-// TODO: Create message alert for translators
 router
 .post('/uploadOriginText', uploadText)
 

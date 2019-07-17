@@ -114,6 +114,11 @@ const Translate = sequelize.define('translates', {
         allowNull: true
     },
 
+    isPaid: {
+        type: Sequelize.BOOLEAN,
+        allowNull: true
+    },
+
     date: {
         type: Sequelize.DATE,
         allowNull: true

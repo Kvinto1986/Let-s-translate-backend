@@ -22,6 +22,7 @@ const textCreate = (req, res, next) => {
                 progress: '0',
                 collectionName: '',
                 currentTranslator: '',
+
                 isReady: false,
                 date: Date.now()
             })
@@ -45,6 +46,7 @@ const textCreate = (req, res, next) => {
                     res.json(socketData);
                 })
             })
+
         }
     })
 }

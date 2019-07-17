@@ -62,8 +62,8 @@ router.post('/registration', function (req, res) {
                     password: req.body.password,
                     verify: false,
                     orders: [],
-                    languages:req.body.languages,
-                    date:Date.now()
+                    languages: req.body.languages,
+                    date: Date.now()
                 });
 
                 bcrypt.genSalt(10, (err, salt) => {

@@ -48,6 +48,10 @@ io.on("connection", socket => {
     socket.on('stopTypingEcho', data => {
         io.sockets.emit("stopTyping", data);
     })
+
+    socket.on('didMountUnreadMessageCountDiscard', data => {
+        io.sockets.emit("unreadMessageCountDiscard", data);
+    })
 })
 
 app.listen(PORT, () => {

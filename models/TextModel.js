@@ -63,6 +63,11 @@ const Text = sequelize.define('texts', {
         allowNull: false
     },
 
+    cost: {
+        type: Sequelize.FLOAT,
+        allowNull: false
+    },
+
     date: {
         type: Sequelize.DATE,
         allowNull: false

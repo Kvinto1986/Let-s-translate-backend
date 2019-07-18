@@ -19,6 +19,7 @@ const textCreate = (req, res, next) => {
                 extraReview: req.body.extraReview,
                 translationSpeed: req.body.translationSpeed,
                 tags: req.body.tags,
+                cost: req.body.cost,
                 progress: '0',
                 collectionName: '',
                 currentTranslator: '',

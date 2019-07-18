@@ -6,9 +6,14 @@ module.exports = function validateText(data) {
     data.originalLanguage = !isEmpty(data.originalLanguage) ? data.originalLanguage : '';
     data.translationLanguage = !isEmpty(data.translationLanguage) ? data.translationLanguage : '';
     data.tags = !isEmpty(data.tags) ? data.tags : '';
+    data.cost = !isEmpty(data.cost) ? data.cost : '';
 
     if (data.tags[0] === undefined) {
         errors.tags = 'Tags is required';
+    }
+
+    if (data.cost === 0) {
+        errors.cost = 'Order cost is required';
     }
 
     if (data.translationLanguage === data.originalLanguage) {

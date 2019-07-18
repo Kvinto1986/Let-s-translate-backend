@@ -102,6 +102,7 @@ router.post('/getMessages', function (req, res) {
 });
 
 router.post('/getDialog', function (req, res) {
+    
     const {recipientEmail, senderEmail} = req.body;
 
     let messagesArr = [];
@@ -123,15 +124,16 @@ router.post('/getDialog', function (req, res) {
                 senderEmail: recipientEmail,
             }
         })
-        .then((messages) => {
+        .then((msgs) => {
 
-            messages.forEach(element => {
+            msgs.forEach(element => {
                 Message.findOne({
                     where: {
                         id: element.id
                     }
                 })
                 .then(msg => {
+                    
                     msg.update({recipientSeen: true})
                     .then(() => {
                         // Recipient's messages
@@ -142,7 +144,6 @@ router.post('/getDialog', function (req, res) {
                             }
                         })
                         .then(recMessages => {
-                            recMessages.forEach(e => console.log(e.recipientSeen))
     
                             messagesArr = messagesArr.concat(recMessages);
                             messagesArr.sort((a, b) => new Date(a.date) - new Date(b.date));
@@ -153,6 +154,9 @@ router.post('/getDialog', function (req, res) {
                 })
             });
         })
+    })
+    .catch(err => {
+        console.log(err)
     })
 });
 

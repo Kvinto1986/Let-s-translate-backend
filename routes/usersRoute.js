@@ -10,6 +10,22 @@ const validateUserInput = require('../validation/userValidation');
 const editProfileData = require('./logic/users/editProfileData')
 
 const User = require('../models/UserModel');
+const Customer = require('../models/CustomerModel');
+
+router.post('/findUserByEmail', function(req, res) {
+    Customer.findOne({where: {email: req.body.recipientEmail}})
+    .then(result => {
+        if (result !== null) {
+            res.json(result)
+        }
+        else {
+            User.findOne({where: {email: req.body.recipientEmail}})
+            then(user => {
+                res.json(user)
+            })
+        }
+    })
+})
 
 router.post('/registration', function (req, res) {
 

@@ -9,11 +9,14 @@ const fetchTranslatesForReview = (req, res, next) => {
             isReady: true,
             isReviewed: false,
             originalLanguage: {
-                [Op.in]: req.body,
+                [Op.in]: req.body.languages,
             },
             translationLanguage: {
-                [Op.in]: req.body,
+                [Op.in]: req.body.languages,
             },
+            translatorEmail: {
+                [Op.ne]: req.body.translatorEmail
+            }
         }
     })
     .then(transalates => {

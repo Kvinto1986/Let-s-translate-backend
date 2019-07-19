@@ -23,10 +23,8 @@ app.use('/api/messages', messages);
 app.use('/api/translates', translates)
 
 const PORT = process.env.PORT || 5000;
-const PORT2 = process.env.PORT || 4000;
 
-const server = app.listen(PORT2);
-const io = require('socket.io').listen(server);
+const io = require('socket.io').listen(PORT);
 
 io.on("connection", socket => {
 

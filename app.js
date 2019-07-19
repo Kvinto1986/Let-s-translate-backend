@@ -1,13 +1,13 @@
 const express = require('express');
-const bodyParser = require('body-parser');
-const cors = require('cors');
 
 const app = express();
-app.use(bodyParser.json({limit: '50mb'}));
-app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
-app.use(cors());
 
-const server = app.listen(5000);
+const PORT = process.env.PORT || 4000;
+
+const server = app.listen(PORT, () => {
+    console.log(`Server is running on PORT ${PORT}`);
+});
+
 const io = require('socket.io').listen(server);
 
 io.on("connection", socket => {

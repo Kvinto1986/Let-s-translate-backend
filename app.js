@@ -24,7 +24,8 @@ app.use('/api/translates', translates)
 
 const PORT = process.env.PORT || 5000;
 
-const io = require('socket.io').listen(PORT);
+const server = app.listen(4000);
+const io = require('socket.io').listen(server);
 
 io.on("connection", socket => {
 

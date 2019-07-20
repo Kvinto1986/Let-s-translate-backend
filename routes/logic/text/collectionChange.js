@@ -21,4 +21,4 @@ const collectionChange = (req, res) => {
     .then(() => res.json(req.body))
 }
 
-module.exports = collectionChange
+module.exports = collectionChange;

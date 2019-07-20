@@ -20,7 +20,7 @@ router.post('/findUserByEmail', function(req, res) {
         }
         else {
             User.findOne({where: {email: req.body.recipientEmail}})
-            then(user => {
+                .then(user => {
                 res.json(user)
             })
         }

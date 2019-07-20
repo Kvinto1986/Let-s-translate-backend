@@ -4,7 +4,7 @@ const fetchUnReadyTranslates = (req, res, next) => {
 
     Translate.findAll({where: {
         translatorEmail: req.body.translatorEmail,
-        isReady: false
+        isReady: false 
     }})
     .then(translates => {
         res.json(translates)

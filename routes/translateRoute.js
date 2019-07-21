@@ -8,6 +8,7 @@ const validateTranslateFinal = require('./logic/validate/validateTranslateFinal'
 const fetchTranslatesForReview = require('./logic/translates2/fetchTranslatesForReview')
 const reviewTranslate = require('./logic/translates2/reviewTranslate')
 const payTranslate = require('./logic/translates2/payTranslate');
+const cancelTranslate = require('./logic/translates2/cancelTranslate');
 
 router
 .post('/getCustomersTranslates', getCustomersTranslates)
@@ -16,5 +17,6 @@ router
 .post('/finishTranslate', validateTranslateFinal, finishTranslate)
 .post('/getTranslatesForReview', fetchTranslatesForReview)
 .post('/translateReview', reviewTranslate)
-.post('/payTranslate', payTranslate);
+.post('/payTranslate', payTranslate)
+.post('/cancelTranslate', cancelTranslate);
 module.exports = router;

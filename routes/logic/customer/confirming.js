@@ -28,7 +28,7 @@ const confirming = (req, res, next) => {
                 }
             });
 
-            let userData = req.body.creditCard + req.body.email;
+            let userData = req.body.creditCard + req.body.email
 
             bcrypt.genSalt(10, (err, salt) => {
                 if (err) console.error('There was an error', err);

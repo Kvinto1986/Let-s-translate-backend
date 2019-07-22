@@ -62,41 +62,43 @@ router.post('/registration', function (req, res) {
                             }
                         });
                     }
-                });
+                }).then(() => {
 
-                const newCustomer = new Customer({
-                    name: req.body.name,
-                    email: req.body.email,
-                    password: req.body.password,
-                    verify: false,
-                    texts: [],
-                    creditCard: req.body.creditCard,
-                    role: req.body.role,
-                    languages: req.body.languages,
-                    date: Date.now()
-                });
+                    const newCustomer = new Customer({
+                        name: req.body.name,
+                        email: req.body.email,
+                        password: req.body.password,
+                        verify: false,
+                        texts: [],
+                        creditCard: req.body.creditCard,
+                        role: req.body.role,
+                        languages: req.body.languages,
+                        date: Date.now()
+                    });
 
-                bcrypt.genSalt(10, (err, salt) => {
-                    if (err) console.error('There was an error', err);
-                    else {
-                        bcrypt.hash(newCustomer.password, salt, (err, hash) => {
-                            if (err) console.error('There was an error', err);
-                            else {
-                                newCustomer.password = hash;
-                                newCustomer
-                                    .save()
-                                    .then(user => {
-                                        res.json(user)
-                                    });
-                            }
-                        });
-                    }
-                });
+                    bcrypt.genSalt(10, (err, salt) => {
+                        if (err) console.error('There was an error', err);
+                        else {
+                            bcrypt.hash(newCustomer.password, salt, (err, hash) => {
+                                if (err) console.error('There was an error', err);
+                                else {
+                                    newCustomer.password = hash;
+                                    newCustomer
+                                        .save()
+                                        .then(user => {
+                                            res.json(user)
+                                        });
+                                }
+                            });
+                        }
+                    });
 
-                Customer.create(newCustomer);
-                res.json(newCustomer)
+                    Customer.create(newCustomer);
+                    res.json(newCustomer)
+                })
+                }
             }
-        });
+        );
 });
 
 router.post('/login', (req, res) => {
@@ -260,10 +262,10 @@ router.post('/restorePassword', (req, res) => {
 
 router.post('/newPassword', (req, res) => {
     Customer.findOne({where: {password: req.body.password}})
-        .then(customer =>{
-            if(customer){
-                res.json(customer)}
-            else res.status(400).json({
+        .then(customer => {
+            if (customer) {
+                res.json(customer)
+            } else res.status(400).json({
                 email: 'No'
             });
         })
@@ -271,19 +273,15 @@ router.post('/newPassword', (req, res) => {
 
 router.post('/editPassword', (req, res) => {
 
-    if (req.body.password!==req.body.password_confirm) {
+    if (req.body.password !== req.body.password_confirm) {
         res.status(400).json({
             password: 'Passwords do not match'
         });
-    }
-
-    else if (req.body.password.length<6) {
+    } else if (req.body.password.length < 6) {
         res.status(400).json({
             password: 'Password must have more then 6 chars'
         });
-    }
-
-    else {
+    } else {
         Customer.findOne({where: {id: req.body.id}})
             .then(customer => {
                 bcrypt.genSalt(10, (err, salt) => {

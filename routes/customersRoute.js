@@ -31,8 +31,8 @@ router.post('/registration', function (req, res) {
                 const transporter = nodemailer.createTransport({
                     service: 'gmail',
                     auth: {
-                        user: 'managerjohnsnow@gmail.com',
-                        pass: 'John1234567890Snow'
+                        user: 'ltr24650@gmail.com',
+                        pass: 'ltr2019ltr'
                     }
                 });
 
@@ -46,7 +46,7 @@ router.post('/registration', function (req, res) {
                             else {
                                 userData = hash;
                                 const mailOptions = {
-                                    from: 'managerJohnSnow@gmail.com',
+                                    from: 'ltr24650@gmail.com',
                                     to: req.body.email,
                                     subject: 'You have successfully registered with the Let\'s translate!',
                                     html: `<h1>Congratulations! You have successfully registered in our system, success in your work!</h1> <a href='https://letstranslate-app.herokuapp.com/confirm/${userData}'>Follow the link to confirm profile creation.</a>`

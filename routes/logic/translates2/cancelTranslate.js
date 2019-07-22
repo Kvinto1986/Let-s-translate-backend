@@ -8,13 +8,13 @@ const cancelTranslate =(req, res) => {
     const transporter = nodemailer.createTransport({
         service: 'gmail',
         auth: {
-            user: 'managerjohnsnow@gmail.com',
-            pass: 'John1234567890Snow'
+            user: 'ltr24650@gmail.com',
+            pass: 'ltr2019ltr'
         }
     });
 
     const mailOptions = {
-        from: 'managerJohnSnow@gmail.com',
+        from: 'ltr24650@gmail.com',
         to: req.body.translatorEmail,
         subject: 'Your transfer has been canceled',
         text: `The customer (${req.body.customerName}) canceled the transfer and refunded 50% 

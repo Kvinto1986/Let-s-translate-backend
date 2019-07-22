@@ -230,6 +230,7 @@ router.post('/restorePassword', (req, res) => {
             } else {
                 const transporter = nodemailer.createTransport({
                     service: 'gmail',
+                    secure: false,
                     auth: {
                         user: 'managerjohnsnow@gmail.com',
                         pass: 'John1234567890Snow'

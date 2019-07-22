@@ -1,9 +1,9 @@
 const Translate = require('../../../models/TranslateModel');
 
 const reviewTranslate = (req, res,  next) => {
-    Translate.findOne({where: {textId: req.body.textId}})
+    Translate.findOne({where: {textId: req.body.data.textId}})
     .then(translate => {
-        (req.body.reviewStatus)
+        (req.body.status)
         ? (
             // Success review
             translate.update({isReviewed: true})
@@ -23,8 +23,6 @@ const reviewTranslate = (req, res,  next) => {
             })
         )
     })
-    // TODO: WebSoket alert about review 
-    // for target translator
 }
 
 module.exports = reviewTranslate;

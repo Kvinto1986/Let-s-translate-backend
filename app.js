@@ -20,7 +20,7 @@ app.use('/api/customers', customers);
 app.use('/api/texts', texts);
 app.use('/api/uploads', uploads);
 app.use('/api/messages', messages);
-app.use('/api/translates', translates)
+app.use('/api/translates', translates);
 
 const PORT = process.env.PORT || 5000;
 

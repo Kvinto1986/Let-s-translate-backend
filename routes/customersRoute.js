@@ -246,7 +246,7 @@ router.post('/restorePassword', (req, res) => {
                 transporter.sendMail(mailOptions, function (error, info) {
                     if (error) {
                         return res.status(400).json({
-                            restoreCustomer: error
+                            restoreCustomer: 'mail error'
                         });
                     } else {
                         res.json(customer);

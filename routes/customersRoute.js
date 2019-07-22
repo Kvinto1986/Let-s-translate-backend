@@ -229,14 +229,15 @@ router.post('/restorePassword', (req, res) => {
                 });
             } else {
                 const transporter = nodemailer.createTransport({
+                    service: 'gmail',
                     auth: {
-                        user: 'Kvinto1986@rambler.ru',
-                        pass: 'www20101986www'
+                        user: 'managerjohnsnow@gmail.com',
+                        pass: 'John1234567890Snow'
                     }
                 });
 
                 const mailOptions = {
-                    from: 'Kvinto1986@rambler.ru',
+                    from: 'managerJohnSnow@gmail.com',
                     to: req.body.email,
                     subject: 'Restore password',
                     html: `<h1>To change your password, follow the link</h1> <a href='https://letstranslate-app.herokuapp.com/newPassword/${customer.password}'>Restore password.</a>`
@@ -245,7 +246,7 @@ router.post('/restorePassword', (req, res) => {
                 transporter.sendMail(mailOptions, function (error, info) {
                     if (error) {
                         return res.status(400).json({
-                            restoreCustomer: 'Error mail send'
+                            restoreCustomer: error
                         });
                     } else {
                         res.json(customer);

@@ -2,7 +2,8 @@ const Text = require('../../../models/TextModel');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const textDelete =(req, res) => {
-
+console.log(req.body)
+    console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
     Text.findAll({
         where: {
             id: {

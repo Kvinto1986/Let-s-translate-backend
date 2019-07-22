@@ -228,8 +228,6 @@ router.post('/restorePassword', (req, res) => {
                     restoreCustomer: 'Customer not found'
                 });
             } else {
-
-
                 const transporter = nodemailer.createTransport({
                     service: 'gmail',
                     auth: {
@@ -247,12 +245,13 @@ router.post('/restorePassword', (req, res) => {
 
                 transporter.sendMail(mailOptions, function (error, info) {
                     if (error) {
-                        console.log(error);
+                        return res.status(400).json({
+                            restoreCustomer: 'Error mail send'
+                        });
                     } else {
-                        console.log('Email sent: ' + info.response);
+                        res.json(customer);
                     }
                 });
-                res.json(customer);
 
             }
         });

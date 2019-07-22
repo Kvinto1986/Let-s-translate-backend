@@ -22,7 +22,7 @@ router
     .post('/registration', validateText, textCreate)
     .post('/updateText', validateText, textUpdate)
     .post('/changeCollection', validateCollection, collectionChange)
-    .post('/deleteTexts', textDelete)
+    .delete('/deleteTexts', textDelete)
     .post('/getAllCollections', getAllCollections)
     .post('/getTextCustomers', getTextCustomers)
     .post('/fetchByAvailableLanguages', fetchTranslates)

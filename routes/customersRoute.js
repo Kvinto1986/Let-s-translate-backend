@@ -164,7 +164,7 @@ router.post('/restorePassword', (req, res) => {
                     from: 'managerJohnSnow@gmail.com',
                     to: req.body.email,
                     subject: 'Restore password',
-                    html: `<h1>To change your password, follow the link</h1> <a href='http://localhost:3000/newPassword/${customer.password}'>Restore password.</a>`
+                    html: `<h1>To change your password, follow the link</h1> <a href='https://letstranslate-app.herokuapp.com/newPassword/${customer.password}'>Restore password.</a>`
                 };
 
                 transporter.sendMail(mailOptions, function (error, info) {

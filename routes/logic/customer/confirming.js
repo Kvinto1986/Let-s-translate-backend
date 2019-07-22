@@ -41,7 +41,7 @@ const confirming = (req, res, next) => {
                                 from: 'managerJohnSnow@gmail.com',
                                 to: req.body.email,
                                 subject: 'You have successfully registered with the Let\'s translate!',
-                                html: `<h1>Congratulations! You have successfully registered in our system, success in your work!</h1> <a href='http://localhost:3000/confirm/${userData}'>Follow the link to confirm profile creation.</a>`
+                                html: `<h1>Congratulations! You have successfully registered in our system, success in your work!</h1> <a href='https://letstranslate-app.herokuapp.com/confirm/${userData}'>Follow the link to confirm profile creation.</a>`
                             };
 
                             transporter.sendMail(mailOptions, function (error, info) {

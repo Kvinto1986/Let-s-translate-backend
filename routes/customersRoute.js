@@ -28,8 +28,6 @@ router.post('/registration', function (req, res) {
                 });
             } else {
 
-                let userData = req.body.creditCard + req.body.email;
-
                 const transporter = nodemailer.createTransport({
                     service: 'gmail',
                     auth: {
@@ -38,22 +36,7 @@ router.post('/registration', function (req, res) {
                     }
                 });
 
-                const mailOptions = {
-                    from: 'managerJohnSnow@gmail.com',
-                    to: req.body.email,
-                    subject: 'You have successfully registered with the Let\'s translate!',
-                    html: `<h1>Congratulations! You have successfully registered in our system, success in your work!</h1> <a href='https://letstranslate-app.herokuapp.com/confirm/${req.body.creditCard + req.body.email}'>Follow the link to confirm profile creation.</a>`
-                };
-
-                transporter.sendMail(mailOptions, function (error, info) {
-                    if (error) {
-                        console.log(error);
-                    } else {
-                        console.log('Email sent: ' + info.response);
-                    }
-                });
-
-
+                let userData = req.body.creditCard + req.body.email;
 
                 bcrypt.genSalt(10, (err, salt) => {
                     if (err) console.error('There was an error', err);
@@ -62,7 +45,20 @@ router.post('/registration', function (req, res) {
                             if (err) console.error('There was an error', err);
                             else {
                                 userData = hash;
+                                const mailOptions = {
+                                    from: 'managerJohnSnow@gmail.com',
+                                    to: req.body.email,
+                                    subject: 'You have successfully registered with the Let\'s translate!',
+                                    html: `<h1>Congratulations! You have successfully registered in our system, success in your work!</h1> <a href='https://letstranslate-app.herokuapp.com/confirm/${userData}'>Follow the link to confirm profile creation.</a>`
+                                };
 
+                                transporter.sendMail(mailOptions, function (error, info) {
+                                    if (error) {
+                                        console.log(error);
+                                    } else {
+                                        console.log('Email sent: ' + info.response);
+                                    }
+                                });
                             }
                         });
                     }

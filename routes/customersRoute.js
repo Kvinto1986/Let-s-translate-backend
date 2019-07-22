@@ -54,9 +54,9 @@ router.post('/registration', function (req, res) {
 
                                 transporter.sendMail(mailOptions, function (error, info) {
                                     if (error) {
-                                        console.log(error);
+                                        res.json(error);
                                     } else {
-                                        console.log('Email sent: ' + info.response);
+                                        res.json('Email sent: ' + info.response);
                                     }
                                 });
                             }

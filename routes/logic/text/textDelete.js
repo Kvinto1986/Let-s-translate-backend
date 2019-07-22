@@ -1,8 +1,8 @@
 const Text = require('../../../models/TextModel');
 const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
-const textDelete =(req, res) => {
-console.log(req.body)
+const textDelete = (req, res) => {
+    console.log(req.body)
     console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
     Text.findAll({
         where: {
@@ -11,14 +11,14 @@ console.log(req.body)
             }
         }
     })
-    .then((texts) => {
-            texts
-            .forEach((elem) => {
-                elem.destroy()
-            })
-        }
-    )
-    .then(() => res.json(req.body))
+        .then((texts) => {
+                texts
+                    .forEach((elem) => {
+                        elem.destroy().then(() => res.json(req.body))
+                    })
+            }
+        )
+
 }
 
 module.exports = textDelete

@@ -37,19 +37,20 @@ router.post('/getMessages', function (req, res) {
     Message.findAll({
         where: {
             senderEmail: userEmail
+            // [Op.or]: [{senderEmail: userEmail}, {recipientEmail: userEmail}]
         }
     }).then((result) => {
         result.reverse();
-
+        
         const uniqArr = [...new Set(result.map(s => s.recipientEmail))]
-            .map(recipientEmail => {
-                return {
-                    recipientEmail: recipientEmail,
-                    messageText: result.find(s => s.recipientEmail === recipientEmail).messageText,
-                    senderEmail: result.find(s => s.recipientEmail === recipientEmail).senderEmail,
-                    date: result.find(s => s.recipientEmail === recipientEmail).date,
-                }
-            });
+        .map(recipientEmail => {
+            return {
+                recipientEmail: recipientEmail,
+                messageText: result.find(s => s.recipientEmail === recipientEmail).messageText,
+                senderEmail: result.find(s => s.recipientEmail === recipientEmail).senderEmail,
+                date: result.find(s => s.recipientEmail === recipientEmail).date,
+            }
+        });
 
         if (uniqArr.length === 0) {
             Message.findAll({
@@ -60,14 +61,14 @@ router.post('/getMessages', function (req, res) {
             .then((result) => {
 
                 const uniqArr = [...new Set(result.map(s => s.recipientEmail))]
-                    .map(recipientEmail => {
-                        return {
-                            senderEmail: recipientEmail,
-                            messageText: result.find(s => s.recipientEmail === recipientEmail).messageText,
-                            recipientEmail: result.find(s => s.recipientEmail === recipientEmail).senderEmail,
-                            date: result.find(s => s.recipientEmail === recipientEmail).date,
-                        }
-                    });
+                .map(recipientEmail => {
+                    return {
+                        senderEmail: recipientEmail,
+                        messageText: result.find(s => s.recipientEmail === recipientEmail).messageText,
+                        recipientEmail: result.find(s => s.recipientEmail === recipientEmail).senderEmail,
+                        date: result.find(s => s.recipientEmail === recipientEmail).date,
+                    }
+                });
 
                 res.json(uniqArr)
             });
@@ -86,17 +87,25 @@ router.post('/getMessages', function (req, res) {
 
                     const recipientUnreadedMessagesCount = data.filter(message => message.recipientSeen === false).length
 
+                    // console.log(data.filter(message => message.recipientSeen === false));
+
                     const lastMessage = Array.from(data)[0];
                     if (lastMessage.date > uniqArr[i].date) {
                         uniqArr[i].recipientUnreadedMessagesCount = recipientUnreadedMessagesCount
                         uniqArr[i].messageText = lastMessage.messageText;
                         uniqArr[i].date = lastMessage.date;
                     }
-                    if (i === uniqArr.length-1) {
-                        res.json(uniqArr);
-                    }
+                    // console.log(uniqArr);
+                    
+                    // if (i === uniqArr.length-1) {
+                    //     console.log(uniqArr);
+                        
+                    //     res.json(uniqArr);
+                    //     // console.log(uniqArr);
+                    // }
                 })
             }
+            res.json(uniqArr);
         }
     })
 });

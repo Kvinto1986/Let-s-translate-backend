@@ -8,6 +8,7 @@ const customers = require('./routes/customersRoute');
 const texts = require('./routes/textRoute');
 const uploads = require('./routes/uploadRoute');
 const messages = require('./routes/messageRoute');
+const comments = require('./routes/commentRoute');
 const translates = require('./routes/translateRoute');
 
 const app = express();
@@ -21,6 +22,7 @@ app.use('/api/texts', texts);
 app.use('/api/uploads', uploads);
 app.use('/api/messages', messages);
 app.use('/api/translates', translates);
+app.use('/api/comments', comments);
 
 const PORT = process.env.PORT || 5000;
 

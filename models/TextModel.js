@@ -68,6 +68,11 @@ const Text = sequelize.define('texts', {
         allowNull: false
     },
 
+    charsCount: {
+        type: Sequelize.INTEGER,
+        allowNull: false
+    },
+
     date: {
         type: Sequelize.DATE,
         allowNull: false

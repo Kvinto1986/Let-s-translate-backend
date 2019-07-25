@@ -20,6 +20,7 @@ const textCreate = (req, res, next) => {
                 translationSpeed: req.body.translationSpeed,
                 tags: req.body.tags,
                 cost: req.body.cost,
+                charsCount: req.body.charsCount,
                 progress: '0',
                 collectionName: '',
                 currentTranslator: '',

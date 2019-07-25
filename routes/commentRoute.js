@@ -10,7 +10,6 @@ const validateMessage = require('../validation/messageValidation');
 
 router.post('/registration', function (req, res) {
 
-    console.log(req.body)
     const {errors, isValid} = validateMessage(req.body);
 
     if (!isValid) {
@@ -18,13 +17,15 @@ router.post('/registration', function (req, res) {
     }
 
     Comment.create({
+        userId: req.body.userId,
+        userRole: req.body.userRole,
         textId: req.body.textId,
         senderEmail: req.body.senderEmail,
         senderName: req.body.senderName,
         commentText: req.body.messageText,
         date: Date.now()
     })
-        .then(result => res.json(result))
+    .then(result => res.json(result))
 });
 
 router.post('/getComments', (req, res) => {
@@ -33,9 +34,9 @@ router.post('/getComments', (req, res) => {
             textId: req.body.textId
         }
     })
-        .then((comments) => {
-            res.json(comments)
-        })
+    .then((comments) => {
+        res.json(comments)
+    })
 });
 
 

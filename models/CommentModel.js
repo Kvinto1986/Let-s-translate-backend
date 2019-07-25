@@ -3,6 +3,16 @@ const sequelize=require('../dbConfig');
 
 const Comment = sequelize.define('comments', {
 
+    userId: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+
+    userRole: {
+        type: Sequelize.STRING,
+        allowNull: false
+    },
+
     textId: {
         type: Sequelize.INTEGER,
         allowNull: false

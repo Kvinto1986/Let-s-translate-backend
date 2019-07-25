@@ -12,6 +12,7 @@ const textUpdate = (req, res) => {
         result.translationLanguage = req.body.translationLanguage;
         result.extraReview = req.body.extraReview;
         result.translationSpeed = req.body.translationSpeed;
+        result.charsCount = req.body.charsCount;
         result.tags = req.body.tags;
 
         if (req.body.fileName) {

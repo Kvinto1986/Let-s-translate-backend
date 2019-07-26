@@ -46,13 +46,13 @@ router.post('/registration', function (req, res) {
                 const transporter = nodemailer.createTransport({
                     service: 'gmail',
                     auth: {
-                        user: 'managerjohnsnow@gmail.com',
-                        pass: 'John1234567890Snow'
+                        user: 'ltr24650@gmail.com',
+                        pass: 'ltr2019ltr'
                     }
                 });
 
                 const mailOptions = {
-                    from: 'managerJohnSnow@gmail.com',
+                    from: 'ltr24650@gmail.com',
                     to: req.body.email,
                     subject: 'You have successfully registered with the Let\'s translate!',
                     text: `Congratulations!

@@ -3,9 +3,16 @@ const isEmpty = require('../is-empty');
 
 module.exports = function validateProfileEdit(data) {
     let errors = {};
-    
     if(!Validator.isEmail(data.email) && data.email.length > 0) {
         errors.email = 'Email is invalid';
+    }
+
+    if(!Validator.isEmpty(data.name) && data.name.length > 0) {
+        errors.name = 'Name is invalid';
+    }
+
+    if(!Validator.isLength(data.name, {min: 2, max: 30}) && data.name.length > 0) {
+        errors.name = 'Name must have from 2 to 30';
     }
 
     if(!Validator.isLength(data.password, {min: 6, max: 30}) && data.password.length > 0) {

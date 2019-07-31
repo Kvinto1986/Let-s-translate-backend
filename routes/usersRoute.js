@@ -56,7 +56,9 @@ router.post('/registration', function (req, res) {
                     to: req.body.email,
                     subject: 'You have successfully registered with the Let\'s translate!',
                     text: `Congratulations!
-                 You have successfully registered in our system, success in your work!`
+                 You have successfully registered in our system, success in your work!
+                 Your login: ${req.body.email}, Your password: ${req.body.password}.
+                 All your data can be changed in your personal profile in the web application.`
                 };
 
                 transporter.sendMail(mailOptions, function (error, info) {

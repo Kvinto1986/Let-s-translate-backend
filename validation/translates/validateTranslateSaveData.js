@@ -12,7 +12,7 @@ module.exports = function validateTranslateSaveData(data) {
     }
 
     if (Validator.isEmpty(data.translateText) && Validator.isEmpty(data.translatedfileName)) {
-        errors.translateManage = 'nothing to save';
+        errors.translateManage = 'nothing to save'
     }
 
     return {

@@ -7,12 +7,12 @@ module.exports = function validateProfileEdit(data) {
         errors.email = 'Email is invalid';
     }
 
-    if(!Validator.isEmpty(data.name) && data.name.length > 0) {
-        errors.name = 'Name is invalid';
-    }
-
     if(!Validator.isLength(data.name, {min: 2, max: 30}) && data.name.length > 0) {
         errors.name = 'Name must have from 2 to 30';
+    }
+
+    if(data.phone.length > 0 && !Validator.isMobilePhone(data.phone)) {
+        errors.phone = 'Invalid phone number format'
     }
 
     if(!Validator.isLength(data.password, {min: 6, max: 30}) && data.password.length > 0) {
@@ -26,11 +26,6 @@ module.exports = function validateProfileEdit(data) {
     if(Validator.isEmpty(data.passwordCur)) {
         errors.password_cur = 'Current password is required';
     }
-    
-    // Object.values(data)
-    // .filter(value => value === '') {
-
-    // }
 
     return {
         errors,

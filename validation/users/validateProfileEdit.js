@@ -3,6 +3,7 @@ const isEmpty = require('../is-empty');
 
 module.exports = function validateProfileEdit(data) {
     let errors = {};
+
     
     if (data.name.length > 0 && !(/^[a-zA-Z][a-zA-Z\s]+$/g.test(data.name))) {
         errors.name = 'Use only Latin symbols in name.'
@@ -15,9 +16,16 @@ module.exports = function validateProfileEdit(data) {
     if(data.name.length > 0 && data.name.length < 2) {
         errors.name = 'User name needs to contains at list 2 symbols'
     }
-    
     if(!Validator.isEmail(data.email) && data.email.length > 0) {
         errors.email = 'Email is invalid';
+    }
+
+    if(!Validator.isLength(data.name, {min: 2, max: 30}) && data.name.length > 0) {
+        errors.name = 'Name must have from 2 to 30';
+    }
+
+    if(data.phone.length > 0 && !Validator.isMobilePhone(data.phone)) {
+        errors.phone = 'Invalid phone number format'
     }
 
     if(!Validator.isLength(data.password, {min: 6, max: 30}) && data.password.length > 0) {

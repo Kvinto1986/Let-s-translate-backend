@@ -58,8 +58,7 @@ router.post('/registration', function (req, res) {
                     text: `Congratulations!
                  You have successfully registered in our system, success in your work!
                  Your login: ${req.body.email}, Your password: ${req.body.password}.
-                 All your data can be changed in your personal profile in the web application.
-                 Best regards, Healthy Street Food Incentives.`
+                 All your data can be changed in your personal profile in the web application.`
                 };
 
                 transporter.sendMail(mailOptions, function (error, info) {

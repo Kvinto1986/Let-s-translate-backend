@@ -18,6 +18,7 @@ const textUpdate = (req, res) => {
             result.extraReview = req.body.extraReview;
             result.translationSpeed = req.body.translationSpeed;
             result.charsCount = req.body.charsCount;
+            result.cost = req.body.cost;
             result.tags = req.body.tags;
 
             if (req.body.fileName) {

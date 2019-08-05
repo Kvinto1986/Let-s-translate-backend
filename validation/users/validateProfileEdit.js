@@ -24,10 +24,6 @@ module.exports = function validateProfileEdit(data) {
         errors.name = 'Name must have from 2 to 30';
     }
 
-    if(data.phone.length > 0 && !Validator.isMobilePhone(data.phone)) {
-        errors.phone = 'Invalid phone number format'
-    }
-
     if(!Validator.isLength(data.password, {min: 6, max: 30}) && data.password.length > 0) {
         errors.password = 'Password must have 6 chars';
     }

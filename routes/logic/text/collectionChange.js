@@ -3,6 +3,11 @@ const Sequelize = require('sequelize');
 const Op = Sequelize.Op;
 const collectionChange = (req, res) => {
 
+    if (req.body.newCollectionName.length===0) {
+        return res.status(400).json({
+            collection: 'Wrong collection value'
+        });
+    }
     Text.findAll({
         where: {
             id: {

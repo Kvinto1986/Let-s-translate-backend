@@ -23,6 +23,16 @@ module.exports = function validateRegisterInput(data) {
         errors.phone = 'Phone is required';
     }
 
+    if (data.phone.length<14) {
+        errors.phone = 'Invalid phone number';
+    }
+
+    if (data.phone.length>14&&data.phone.split('')[1]==='0') {
+        console.log(data.phone.split('')[1])
+        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+        errors.phone = 'Invalid phone number';
+    }
+
     if (!Validator.isEmail(data.email)) {
         errors.email = 'Email is invalid';
     }

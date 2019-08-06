@@ -31,6 +31,10 @@ module.exports = function validateRegisterInput(data) {
         errors.email = 'Email is required';
     }
 
+    if(data.password.indexOf(' ') !== -1) {
+        errors.password = "Password shouldn't contain any spaces.";
+    }
+    
     if (!Validator.isLength(data.password, {min: 6, max: 40})) {
         errors.password = 'Password must have 6 chars';
     }

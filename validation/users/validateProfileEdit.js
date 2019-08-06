@@ -28,6 +28,10 @@ module.exports = function validateProfileEdit(data) {
         errors.password = 'Password must have 6 chars';
     }
 
+    if(data.password.indexOf(' ') !== -1) {
+        errors.password = "Password shouldn't contain any spaces.";
+    }
+
     if(!Validator.isLength(data.passwordCur, {min: 6, max: 30})) {
         errors.passwordCur = 'Password must have at list 6 chars';
     }

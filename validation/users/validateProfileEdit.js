@@ -13,6 +13,20 @@ module.exports = function validateProfileEdit(data) {
         errors.name = 'Name should be started from any Latin symbol.'
     }
 
+    if (Validator.isEmpty(data.phone)) {
+        errors.phone = 'Phone is required';
+    }
+
+    if (data.phone.length<14) {
+        errors.phone = 'Invalid phone number';
+    }
+
+    if (data.phone.length>14&&data.phone.split('')[1]==='0') {
+        console.log(data.phone.split('')[1])
+        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+        errors.phone = 'Invalid phone number';
+    }
+
     if(data.name.length > 0 && data.name.length < 2) {
         errors.name = 'User name needs to contains at list 2 symbols'
     }

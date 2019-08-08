@@ -16,7 +16,7 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 
 
-const whitelist = ['https://letstranslate-app.herokuapp.com']
+const whitelist = ['https://letstranslate-app.herokuapp.com','https://websocket-back.herokuapp.com']
 const corsOptions = {
     origin: function (origin, callback) {
         if (whitelist.indexOf(origin) !== -1) {

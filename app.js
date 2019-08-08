@@ -14,7 +14,7 @@ const translates = require('./routes/translateRoute');
 const app = express();
 app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
-app.use(cors());
+
 
 const whitelist = ['https://letstranslate-app.herokuapp.com/']
 const corsOptions = {
@@ -27,8 +27,10 @@ const corsOptions = {
     }
 }
 
-app.use('/api/users', cors(corsOptions),users);
-app.use('/api/customers',cors(corsOptions), customers);
+app.use(cors(corsOptions));
+
+app.use('/api/users',users);
+app.use('/api/customers', customers);
 app.use('/api/texts', cors(corsOptions),texts);
 app.use('/api/uploads', cors(corsOptions),uploads);
 app.use('/api/messages', cors(corsOptions),messages);

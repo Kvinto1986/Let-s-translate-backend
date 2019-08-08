@@ -9,14 +9,20 @@ module.exports = function validateText(data) {
     data.cost = !isEmpty(data.cost) ? data.cost : '';
 
     if (data.tags.length === 0 && Array.isArray(data.tags)) {
+        console.log(data.tags)
+        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         errors.tags = 'Tags is required';
     }
 
     if (!Array.isArray(data.tags)) {
+        console.log(data.tags)
+        console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
         errors.tags = 'Wrong Tags value';
     }
 
     if (Array.isArray(data.tags) && Array.isArray(data.tags) > 0) {
+        console.log(data.tags)
+        console.log('??????????????????????????????????????')
 
         const validlanguages = ["medicine", "science", "equipment", "culture", "art", "Japanese", "history"];
 

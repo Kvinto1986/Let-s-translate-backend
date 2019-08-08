@@ -20,21 +20,24 @@ module.exports = function validateText(data) {
         errors.tags = 'Wrong Tags value';
     }
 
-    if (Array.isArray(data.tags) && Array.isArray(data.tags) > 0) {
-        console.log(data.tags)
-        console.log('??????????????????????????????????????')
+    if (Array.isArray(data.tags) && data.tags.length > 0) {
 
         const validlanguages = ["medicine", "science", "equipment", "culture", "art", "Japanese", "history"];
 
-        let confirm = true;
 
         for (let i = 0; i < data.tags; i++) {
+            console.log(i)
+            console.log(data.tags[i])
+            console.log('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT')
+
             if (validlanguages.includes(data.tags[i])) {
-                confirm = true;
+                console.log(data.tags[i])
+                console.log('RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR')
+                errors.tags = 'Wrong language value'
             } else {
-                confirm = false;
-                errors.tags = 'Wrong language value';
-                break
+                console.log(data.tags[i])
+                console.log('??????????????????????????????????????')
+                errors.tags = 'Wrong language value'
             }
 
         }

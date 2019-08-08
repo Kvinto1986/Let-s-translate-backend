@@ -16,13 +16,24 @@ app.use(bodyParser.json({limit: '50mb'}));
 app.use(bodyParser.urlencoded({limit: '50mb', extended: true}));
 app.use(cors());
 
-app.use('/api/users', users);
-app.use('/api/customers', customers);
-app.use('/api/texts', texts);
-app.use('/api/uploads', uploads);
-app.use('/api/messages', messages);
-app.use('/api/translates', translates);
-app.use('/api/comments', comments);
+const whitelist = ['https://letstranslate-app.herokuapp.com/']
+const corsOptions = {
+    origin: function (origin, callback) {
+        if (whitelist.indexOf(origin) !== -1) {
+            callback(null, true)
+        } else {
+            callback(new Error('Not allowed by CORS'))
+        }
+    }
+}
+
+app.use('/api/users', cors(corsOptions),users);
+app.use('/api/customers',cors(corsOptions), customers);
+app.use('/api/texts', cors(corsOptions),texts);
+app.use('/api/uploads', cors(corsOptions),uploads);
+app.use('/api/messages', cors(corsOptions),messages);
+app.use('/api/translates', cors(corsOptions),translates);
+app.use('/api/comments',cors(corsOptions), comments);
 
 const PORT = process.env.PORT || 5000;
 

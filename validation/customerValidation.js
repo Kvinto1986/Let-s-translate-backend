@@ -17,7 +17,7 @@ module.exports = function validateRegisterInput(data) {
         errors.name = 'Name field is required';
     }
 
-    if(!Validator.isEmail(data.email)) {
+    if(!Validator.isEmail(data.email) || !Validator.isAscii(data.email)) {
         errors.email = 'Email is invalid';
     }
 
@@ -31,6 +31,10 @@ module.exports = function validateRegisterInput(data) {
 
     if(Validator.isEmpty(data.creditCard)) {
         errors.creditCard = 'Credit card serial field is required';
+    }
+
+    if(data.password.indexOf(' ') !== -1) {
+        errors.password = "Password shouldn't contain any spaces.";
     }
 
     if(!Validator.isLength(data.password, {min: 6, max: 40})) {

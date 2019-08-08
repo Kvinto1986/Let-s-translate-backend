@@ -23,7 +23,7 @@ module.exports = function validateProfileEdit(data) {
 
     if (data.phone.length>14&&data.phone.split('')[1]==='0') {
         console.log(data.phone.split('')[1])
-        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+
         errors.phone = 'Invalid phone number';
     }
 
@@ -40,6 +40,10 @@ module.exports = function validateProfileEdit(data) {
 
     if(!Validator.isLength(data.password, {min: 6, max: 30}) && data.password.length > 0) {
         errors.password = 'Password must have 6 chars';
+    }
+
+    if(data.password.indexOf(' ') !== -1) {
+        errors.password = "Password shouldn't contain any spaces.";
     }
 
     if(!Validator.isLength(data.passwordCur, {min: 6, max: 30})) {

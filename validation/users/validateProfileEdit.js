@@ -4,7 +4,7 @@ const isEmpty = require('../is-empty');
 module.exports = function validateProfileEdit(data) {
     let errors = {};
 
-    
+    console.log(data)
     if (data.name.length > 0 && !(/^[a-zA-Z][a-zA-Z\s]+$/g.test(data.name))) {
         errors.name = 'Use only Latin symbols in name.'
     }
@@ -13,9 +13,11 @@ module.exports = function validateProfileEdit(data) {
         errors.name = 'Name should be started from any Latin symbol.'
     }
 
-    if (data.phone&&data.phone.length<14) {
-        console.log(data)
-        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+    if (data.creditCard!==''&&data.creditCard.length<16) {
+        errors.creditCard = 'Invalid credit card number';
+    }
+
+    if (data.phone!==''&&data.phone.length<14) {
         errors.phone = 'Invalid phone number';
     }
 

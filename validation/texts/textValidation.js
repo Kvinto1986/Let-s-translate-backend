@@ -9,26 +9,35 @@ module.exports = function validateText(data) {
     data.cost = !isEmpty(data.cost) ? data.cost : '';
 
     if (data.tags.length === 0 && Array.isArray(data.tags)) {
+        console.log(data.tags)
+        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
         errors.tags = 'Tags is required';
     }
 
     if (!Array.isArray(data.tags)) {
+        console.log(data.tags)
+        console.log('$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$')
         errors.tags = 'Wrong Tags value';
     }
 
-    if (Array.isArray(data.tags) && Array.isArray(data.tags) > 0) {
+    if (Array.isArray(data.tags) && data.tags.length > 0) {
 
         const validlanguages = ["medicine", "science", "equipment", "culture", "art", "Japanese", "history"];
 
-        let confirm = true;
 
         for (let i = 0; i < data.tags; i++) {
+            console.log(i)
+            console.log(data.tags[i])
+            console.log('TTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTTT')
+
             if (validlanguages.includes(data.tags[i])) {
-                confirm = true;
+                console.log(data.tags[i])
+                console.log('RRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRRR')
+                errors.tags = 'Wrong language value'
             } else {
-                confirm = false;
-                errors.tags = 'Wrong language value';
-                break
+                console.log(data.tags[i])
+                console.log('??????????????????????????????????????')
+                errors.tags = 'Wrong language value'
             }
 
         }

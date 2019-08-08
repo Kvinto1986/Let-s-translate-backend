@@ -6,13 +6,25 @@ module.exports = function validateTranslateSaveData(data) {
     data.progress = !isEmpty(data.progress) ? data.progress : '';
     data.translateText = !isEmpty(data.translateText) ? data.translateText : '';
     data.translatedfileName = !isEmpty(data.translatedfileName) ? data.translatedfileName : '';
+    data.translateTextName = !isEmpty(data.translateTextName) ? data.translateTextName : '';
 
     if (!Validator.isNumeric(data.progress) || data.progress > 100 || data.progress < 0) {
         errors.progress = 'Invalid progress value';
     }
 
     if (Validator.isEmpty(data.translateText) && Validator.isEmpty(data.translatedfileName)) {
-        errors.translateManage = 'nothing to save'
+        errors.translateManage = 'Here is nothing to finish';
+    }
+
+    if (data.translateTextName.length > 100) {
+        errors.translateManage = "Text name should be no longer then 100 symbols"
+    }
+
+    if(Validator.isEmpty(data.translatedfileName) && 
+       (Validator.isEmpty(data.translateText) ||
+       Validator.isEmpty(data.translateTextName))
+    ) {
+        errors.translateManage = 'If you are not load file, please, fill all inputs below';
     }
 
     return {

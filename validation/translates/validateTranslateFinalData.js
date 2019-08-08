@@ -15,6 +15,13 @@ module.exports = function validateTranslateFinalData(data) {
         errors.translateManage = 'Here is nothing to finish';
     }
 
+    if(Validator.isEmpty(data.translatedfileName) && 
+       (Validator.isEmpty(data.translateText) ||
+       Validator.isEmpty(data.translateTextName))
+    ) {
+        errors.translateManage = 'If you are not load file, please, fill all inputs below';
+    }
+
     return {
         errors,
         isValid: isEmpty(errors)

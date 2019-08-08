@@ -13,15 +13,11 @@ module.exports = function validateProfileEdit(data) {
         errors.name = 'Name should be started from any Latin symbol.'
     }
 
-    if (data.phone&&data.phone.length<14) {
-        console.log(data)
-        console.log('!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!')
+    if (data.phone && data.phone.length < 14) {
         errors.phone = 'Invalid phone number';
     }
 
-    if (data.phone.length>14&&data.phone.split('')[1]==='0') {
-        console.log(data.phone.split('')[1])
-
+    if (data.phone.length > 14 && data.phone.split('')[1] === '0') {
         errors.phone = 'Invalid phone number';
     }
 
@@ -45,7 +41,7 @@ module.exports = function validateProfileEdit(data) {
     }
 
     if(!Validator.isLength(data.passwordCur, {min: 6, max: 30})) {
-        errors.passwordCur = 'Password must have at list 6 chars';
+        errors.passwordCur = 'Password must have from 6 to 30 chars';
     }
 
     if(Validator.isEmpty(data.passwordCur)) {
